@@ -248,8 +248,9 @@ def receive_Microbit_Messages_Fn() -> None:
             rowData_ArrayList_OfDictionaryPairs_ForAllBots[rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int]['magnet_lastdelta'] = scoreboard_DataMessage_Rcvd_Dict['M']
             rowData_ArrayList_OfDictionaryPairs_ForAllBots[rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int]['magnet_total'] = scoreboard_DataMessage_Rcvd_Dict['M']
  
-            ###jwc n history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList[rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int] = {'history_OfDrawLines_PerBot_AsObject_ManyInQueue_Key': Queue()}
-            history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList[scoreboard_DataMessage_Rcvd_Dict['#']] = {'history_OfDrawLines_PerBot_AsObject_ManyInQueue_Key': Queue()}
+            ###jwc n history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList[rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int] = {'history_OfDrawTexts_PerBot_AsObject_ManyInQueue_Key': Queue()}
+            history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList[scoreboard_DataMessage_Rcvd_Dict['#']] = {'history_OfDrawTexts_PerBot_AsObject_ManyInQueue_Key': Queue()}
+            history_OfDrawLines_PerBot_AsObject_ManyInQueue_InDictionList[scoreboard_DataMessage_Rcvd_Dict['#']] = {'history_OfDrawLines_PerBot_AsObject_ManyInQueue_Key': Queue()}
             
             if _debug_Show_Priority_Hi_Bool:
                 print("  D2:" + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots[rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int]))
@@ -280,7 +281,8 @@ graph_Vertical_MULTIPLIER_INT = 2
 ###jwc n GRAPH_SIZE = (500,500)
 GRAPH_SIZE = (600,graph_Vertical_Now_Int)
 ###jwc y GRAPH_STEP_SIZE = 5
-GRAPH_STEP_SIZE = 15
+###jwc y GRAPH_STEP_SIZE = 15
+GRAPH_STEP_SIZE = 30
 
 sg.change_look_and_feel('LightGreen')
 
@@ -301,20 +303,24 @@ sg.change_look_and_feel('LightGreen')
 
 ###jwc 23-0527-1320 y5? history_OfDrawLines_Queues_ManyBots_2D = {1:{'DrawLine_Figure_Object_Queue':None}}
 
+history_OfDrawLines_PerBot_AsGraphicObject = None
+history_OfDrawLines_PerBot_AsObject_ManyInQueue = Queue()
+###jwc y history_OfDrawLines_PerBot_AsObject_ManyInQueue_InDictionList = {1:{'history_OfDrawLines_PerBot_AsObject_ManyInQueue_Key':None}}
+history_OfDrawLines_PerBot_AsObject_ManyInQueue_InDictionList = {1:{'history_OfDrawLines_PerBot_AsObject_ManyInQueue_Key':Queue()}}
+
 
 history_OfDrawTexts_PerBot_AsGraphicObject = None
-
 history_OfDrawTexts_PerBot_AsObject_ManyInQueue = Queue()
-
-###jwc y history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList = {1:{'history_OfDrawLines_PerBot_AsObject_ManyInQueue_Key':None}}
-history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList = {1:{'history_OfDrawLines_PerBot_AsObject_ManyInQueue_Key':Queue()}}
+###jwc y history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList = {1:{'history_OfDrawTexts_PerBot_AsObject_ManyInQueue_Key':None}}
+history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList = {1:{'history_OfDrawTexts_PerBot_AsObject_ManyInQueue_Key':Queue()}}
 
 
 layout = [  
             ### jwc y [sg.Graph(GRAPH_SIZE, (0,0), GRAPH_SIZE, key='-GRAPH-', background_color='lightblue')],
             [sg.Graph(GRAPH_SIZE, (0,0), GRAPH_SIZE, key='-GRAPH-', background_color='lightblue'), sg.Slider((0,30), default_value=15, orientation='h', key='-DELAY2-')],
             [sg.Text('graph_Vertical_Now_Int:'), sg.Text(key='-graph_Vertical_Now_Int-'), sg.Text('graph_Vertical_Divider_Int:'), sg.Text(key='-graph_Vertical_Divider_Int-')],
-            [sg.Text('Milliseconds per sample:', size=(20,1)), sg.Slider((0,30), default_value=15, orientation='h', key='-DELAY-'), sg.Text('Pixels per sample:', size=(20,1)), sg.Slider((0,30), default_value=GRAPH_STEP_SIZE, orientation='h', key='-STEP-SIZE-')],
+            ###jwc y [sg.Text('Milliseconds per sample:', size=(20,1)), sg.Text('____', key='-MSECPERSAMPLE-'), sg.Slider((0,30), default_value=15, orientation='h', key='-DELAY-'), sg.Text('Pixels per sample:', size=(20,1)), sg.Text('____', key='-PIXELPERSAMPLE-'), sg.Slider((0,30), default_value=GRAPH_STEP_SIZE, orientation='h', key='-STEP-SIZE-')],
+            [sg.Text('Milliseconds per sample:', size=(20,1)), sg.Text('____', key='-MSECPERSAMPLE-'), sg.Slider((0,30), default_value=15, orientation='h', key='-DELAY-'), sg.Text('Pixels per sample:', size=(20,1)), sg.Text('____', key='-PIXELPERSAMPLE-'), sg.Slider((0,60), default_value=GRAPH_STEP_SIZE, orientation='h', key='-STEP-SIZE-')],
             ###jwc o  sg.Slider((1,30), default_value=GRAPH_STEP_SIZE, orientation='h', key='-STEP-SIZE-')],
             [sg.Button('Exit')]
             ]
@@ -342,9 +348,14 @@ while True:                             # Event Loop
     
     window['-graph_Vertical_Now_Int-'].update(graph_Vertical_Now_Int)
     window['-graph_Vertical_Divider_Int-'].update(graph_Vertical_Divider_Int)
+    
+    
 
     ###jwc o for web, convert text to int: step_size, delay = values['-STEP-SIZE-'], values['-DELAY-']
     step_size, delay = int(values['-STEP-SIZE-']), int(values['-DELAY-'])
+    
+    window['-MSECPERSAMPLE-'].update(delay)
+    window['-PIXELPERSAMPLE-'].update(step_size)
     
     values['-graph_Vertical_Divider_Int-'] = graph_Vertical_Divider_Int
     
@@ -367,11 +378,12 @@ while True:                             # Event Loop
             if wrapAround_Bool:
                 ###jwc 23-0527-1320 y5? graph.delete_figure(history_OfDrawLines_Queues_ManyBots_2D[rowData_ForOneBot['bot_id']]['Queue'].get())
 
-                history_OfDrawTexts_PerBot_AsObject_ManyInQueue = history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawLines_PerBot_AsObject_ManyInQueue_Key']
-            
-                graph.delete_figure(history_OfDrawTexts_PerBot_AsObject_ManyInQueue.get(history_OfDrawTexts_PerBot_AsGraphicObject))
+                history_OfDrawLines_PerBot_AsObject_ManyInQueue = history_OfDrawLines_PerBot_AsObject_ManyInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawLines_PerBot_AsObject_ManyInQueue_Key']
+                graph.delete_figure(history_OfDrawLines_PerBot_AsObject_ManyInQueue.get(history_OfDrawLines_PerBot_AsGraphicObject))
 
-                history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawLines_PerBot_AsObject_ManyInQueue_Key'] = history_OfDrawTexts_PerBot_AsObject_ManyInQueue
+                history_OfDrawTexts_PerBot_AsObject_ManyInQueue = history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawTexts_PerBot_AsObject_ManyInQueue_Key']
+                graph.delete_figure(history_OfDrawTexts_PerBot_AsObject_ManyInQueue.get(history_OfDrawTexts_PerBot_AsGraphicObject))
+                ###jwc seems not needed y: history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawTexts_PerBot_AsObject_ManyInQueue_Key'] = history_OfDrawTexts_PerBot_AsObject_ManyInQueue
         
             
             ###jwc y window['-GRAPH-'].DrawLine((lastX1, rowData_ForOneBot['light_total_old']), 
@@ -386,11 +398,14 @@ while True:                             # Event Loop
             rowData_ForOneBot_Y_Now = int( rowData_ForOneBot['light_total'] / graph_Vertical_Divider_Int )
             rowData_ForOneBot_Y_Old = int( rowData_ForOneBot['light_total_old'] / graph_Vertical_Divider_Int )
 
-            window['-GRAPH-'].DrawLine((lastx, rowData_ForOneBot_Y_Old), 
+            history_OfDrawLines_PerBot_AsGraphicObject = window['-GRAPH-'].DrawLine((lastx, rowData_ForOneBot_Y_Old), 
                                     ###jwc y (x, int(rowData_ForOneBot['light_total'])), 
                                     (x, rowData_ForOneBot_Y_Now), 
                                     color='blue', 
                                     width=1)
+            history_OfDrawLines_PerBot_AsObject_ManyInQueue = history_OfDrawLines_PerBot_AsObject_ManyInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawLines_PerBot_AsObject_ManyInQueue_Key']
+            history_OfDrawLines_PerBot_AsObject_ManyInQueue.put(history_OfDrawLines_PerBot_AsGraphicObject)
+
             ###jwc n window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x, rowData_ForOneBot_Y_Now+5), font=('Arial', 6), text_location='right')
             ###jwc y window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x-5, rowData_ForOneBot_Y_Now+5))
             ###jwc y window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x-5, rowData_ForOneBot_Y_Now+5), font=('Arial', 10))
@@ -412,16 +427,11 @@ while True:                             # Event Loop
 
             ###jwc y4? history_OfDrawLines_Queues_ManyBots_2D[rowData_ForOneBot['bot_id']]['DrawLine_Figure_Object_Queue'].put(history_OfDrawTexts_PerBot_AsGraphicObject)
             ###jwc 23-0527-1320 y5? history_OfDrawLines_Queues_ManyBots_2D[rowData_ForOneBot['bot_id']].put(history_OfDrawTexts_PerBot_AsGraphicObject)
-                    
-            
+                                
             history_OfDrawTexts_PerBot_AsGraphicObject = window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x-5, rowData_ForOneBot_Y_Now+5), font=('Arial', 4))
-
-            history_OfDrawTexts_PerBot_AsObject_ManyInQueue = history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawLines_PerBot_AsObject_ManyInQueue_Key']
-            
+            history_OfDrawTexts_PerBot_AsObject_ManyInQueue = history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawTexts_PerBot_AsObject_ManyInQueue_Key']
             history_OfDrawTexts_PerBot_AsObject_ManyInQueue.put(history_OfDrawTexts_PerBot_AsGraphicObject)
-            
-            ###jwc seems not needed y: history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawLines_PerBot_AsObject_ManyInQueue_Key'] = history_OfDrawTexts_PerBot_AsObject_ManyInQueue
-            
+            ###jwc seems not needed y: history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawTexts_PerBot_AsObject_ManyInQueue_Key'] = history_OfDrawTexts_PerBot_AsObject_ManyInQueue
             
             rowData_ForOneBot['light_total_old'] = rowData_ForOneBot['light_total']
     
