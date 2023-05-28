@@ -41,23 +41,23 @@ rowData_ArrayList_OfDictionaryPairs_ForAllBots = [
     ###jwc yy {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':'', 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':''},
     ###jwc yy {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':'', 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':''},
 
-    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':''},
-    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':''},
-    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':''},
-    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':''},
-    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':''},
+    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':'', 'grand_total':'', 'grand_total_old':0},
+    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':'', 'grand_total':'', 'grand_total_old':0},
+    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':'', 'grand_total':'', 'grand_total_old':0},
+    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':'', 'grand_total':'', 'grand_total_old':0},
+    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':'', 'grand_total':'', 'grand_total_old':0},
 
-    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':''},
-    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':''},
-    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':''},
-    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':''},
-    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':''},
+    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':'', 'grand_total':'', 'grand_total_old':0},
+    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':'', 'grand_total':'', 'grand_total_old':0},
+    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':'', 'grand_total':'', 'grand_total_old':0},
+    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':'', 'grand_total':'', 'grand_total_old':0},
+    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':'', 'grand_total':'', 'grand_total_old':0},
 
-    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':''},
-    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':''},
-    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':''},
-    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':''},
-    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':''},
+    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':'', 'grand_total':'', 'grand_total_old':0},
+    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':'', 'grand_total':'', 'grand_total_old':0},
+    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':'', 'grand_total':'', 'grand_total_old':0},
+    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':'', 'grand_total':'', 'grand_total_old':0},
+    {'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':'', 'grand_total':'', 'grand_total_old':0},
 ]
 
 scoreboard_DataMessage_Rcvd_Dict = {}
@@ -218,6 +218,10 @@ def receive_Microbit_Messages_Fn() -> None:
                 
                 bot_dictionary['magnet_lastdelta'] = scoreboard_DataMessage_Rcvd_Dict['M']
                 bot_dictionary['magnet_total'] += scoreboard_DataMessage_Rcvd_Dict['M']
+                
+                # Add 'Light Sensor' and Subtract 'Magnet Sensor'
+                bot_dictionary['grand_total'] += scoreboard_DataMessage_Rcvd_Dict['L'] - scoreboard_DataMessage_Rcvd_Dict['M']
+
                 if _debug_Show_Priority_Hi_Bool:
                     print("  C3b:bot_dictionary: " + str(bot_dictionary))
                 
@@ -247,10 +251,18 @@ def receive_Microbit_Messages_Fn() -> None:
             ###jwc n rowData_ArrayList_OfDictionaryPairs_ForAllBots[rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int]['light_total_old'] = 0
             rowData_ArrayList_OfDictionaryPairs_ForAllBots[rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int]['magnet_lastdelta'] = scoreboard_DataMessage_Rcvd_Dict['M']
             rowData_ArrayList_OfDictionaryPairs_ForAllBots[rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int]['magnet_total'] = scoreboard_DataMessage_Rcvd_Dict['M']
+            # Add 'Light Sensor' and Subtract 'Magnet Sensor'
+            rowData_ArrayList_OfDictionaryPairs_ForAllBots[rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int]['grand_total'] = scoreboard_DataMessage_Rcvd_Dict['L'] - scoreboard_DataMessage_Rcvd_Dict['M']
  
-            ###jwc n history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList[rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int] = {'history_OfDrawTexts_PerBot_AsObject_ManyInQueue_Key': Queue()}
-            history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList[scoreboard_DataMessage_Rcvd_Dict['#']] = {'history_OfDrawTexts_PerBot_AsObject_ManyInQueue_Key': Queue()}
-            history_OfDrawLines_PerBot_AsObject_ManyInQueue_InDictionList[scoreboard_DataMessage_Rcvd_Dict['#']] = {'history_OfDrawLines_PerBot_AsObject_ManyInQueue_Key': Queue()}
+            ###jwc n history_OfDrawTexts_PerBot_AsObject_AllObjectsInQueue_InDictionList[rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int] = {'history_OfDrawTexts_PerBot_AsObject_AllObjectsInQueue_Key': Queue()}
+            history_OfDrawLines_PerBot_AsObject_AllObjectsInQueue_InDictionList[scoreboard_DataMessage_Rcvd_Dict['#']] = {
+                'history_OfDrawLines_PerBot_AsObject_AllObjectsInQueue_Key': Queue(), 
+                'history_OfDrawLines_LightLastDelta_PerBot_AsObject_AllObjectsInQueue_Key':Queue(),
+                'history_OfDrawLines_MagnetLastDelta_PerBot_AsObject_AllObjectsInQueue_Key':Queue()
+                }
+            history_OfDrawTexts_PerBot_AsObject_AllObjectsInQueue_InDictionList[scoreboard_DataMessage_Rcvd_Dict['#']] = {
+                'history_OfDrawTexts_PerBot_AsObject_AllObjectsInQueue_Key': Queue()
+                }
             
             if _debug_Show_Priority_Hi_Bool:
                 print("  D2:" + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots[rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int]))
@@ -304,15 +316,19 @@ sg.change_look_and_feel('LightGreen')
 ###jwc 23-0527-1320 y5? history_OfDrawLines_Queues_ManyBots_2D = {1:{'DrawLine_Figure_Object_Queue':None}}
 
 history_OfDrawLines_PerBot_AsGraphicObject = None
-history_OfDrawLines_PerBot_AsObject_ManyInQueue = Queue()
-###jwc y history_OfDrawLines_PerBot_AsObject_ManyInQueue_InDictionList = {1:{'history_OfDrawLines_PerBot_AsObject_ManyInQueue_Key':None}}
-history_OfDrawLines_PerBot_AsObject_ManyInQueue_InDictionList = {1:{'history_OfDrawLines_PerBot_AsObject_ManyInQueue_Key':Queue()}}
+history_OfDrawLines_PerBot_AsObject_AllObjectsInQueue = Queue()
+###jwc y history_OfDrawLines_PerBot_AsObject_AllObjectsInQueue_InDictionList = {1:{'history_OfDrawLines_PerBot_AsObject_AllObjectsInQueue_Key':None}}
+history_OfDrawLines_PerBot_AsObject_AllObjectsInQueue_InDictionList = {1:{
+    'history_OfDrawLines_PerBot_AsObject_AllObjectsInQueue_Key':Queue(), 
+    'history_OfDrawLines_LightLastDelta_PerBot_AsObject_AllObjectsInQueue_Key':Queue(),
+    'history_OfDrawLines_MagnetLastDelta_PerBot_AsObject_AllObjectsInQueue_Key':Queue()
+    }}
 
 
 history_OfDrawTexts_PerBot_AsGraphicObject = None
-history_OfDrawTexts_PerBot_AsObject_ManyInQueue = Queue()
-###jwc y history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList = {1:{'history_OfDrawTexts_PerBot_AsObject_ManyInQueue_Key':None}}
-history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList = {1:{'history_OfDrawTexts_PerBot_AsObject_ManyInQueue_Key':Queue()}}
+history_OfDrawTexts_PerBot_AsObject_AllObjectsInQueue = Queue()
+###jwc y history_OfDrawTexts_PerBot_AsObject_AllObjectsInQueue_InDictionList = {1:{'history_OfDrawTexts_PerBot_AsObject_AllObjectsInQueue_Key':None}}
+history_OfDrawTexts_PerBot_AsObject_AllObjectsInQueue_InDictionList = {1:{'history_OfDrawTexts_PerBot_AsObject_AllObjectsInQueue_Key':Queue()}}
 
 
 layout = [  
@@ -348,8 +364,6 @@ while True:                             # Event Loop
     
     window['-graph_Vertical_Now_Int-'].update(graph_Vertical_Now_Int)
     window['-graph_Vertical_Divider_Int-'].update(graph_Vertical_Divider_Int)
-    
-    
 
     ###jwc o for web, convert text to int: step_size, delay = values['-STEP-SIZE-'], values['-DELAY-']
     step_size, delay = int(values['-STEP-SIZE-']), int(values['-DELAY-'])
@@ -378,34 +392,62 @@ while True:                             # Event Loop
             if wrapAround_Bool:
                 ###jwc 23-0527-1320 y5? graph.delete_figure(history_OfDrawLines_Queues_ManyBots_2D[rowData_ForOneBot['bot_id']]['Queue'].get())
 
-                history_OfDrawLines_PerBot_AsObject_ManyInQueue = history_OfDrawLines_PerBot_AsObject_ManyInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawLines_PerBot_AsObject_ManyInQueue_Key']
-                graph.delete_figure(history_OfDrawLines_PerBot_AsObject_ManyInQueue.get(history_OfDrawLines_PerBot_AsGraphicObject))
+                history_OfDrawLines_PerBot_AsObject_AllObjectsInQueue = history_OfDrawLines_PerBot_AsObject_AllObjectsInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawLines_PerBot_AsObject_AllObjectsInQueue_Key']
+                graph.delete_figure(history_OfDrawLines_PerBot_AsObject_AllObjectsInQueue.get(history_OfDrawLines_PerBot_AsGraphicObject))
 
-                history_OfDrawTexts_PerBot_AsObject_ManyInQueue = history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawTexts_PerBot_AsObject_ManyInQueue_Key']
-                graph.delete_figure(history_OfDrawTexts_PerBot_AsObject_ManyInQueue.get(history_OfDrawTexts_PerBot_AsGraphicObject))
-                ###jwc seems not needed y: history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawTexts_PerBot_AsObject_ManyInQueue_Key'] = history_OfDrawTexts_PerBot_AsObject_ManyInQueue
+                history_OfDrawTexts_PerBot_AsObject_AllObjectsInQueue = history_OfDrawTexts_PerBot_AsObject_AllObjectsInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawTexts_PerBot_AsObject_AllObjectsInQueue_Key']
+                graph.delete_figure(history_OfDrawTexts_PerBot_AsObject_AllObjectsInQueue.get(history_OfDrawTexts_PerBot_AsGraphicObject))
+                ###jwc seems not needed y: history_OfDrawTexts_PerBot_AsObject_AllObjectsInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawTexts_PerBot_AsObject_AllObjectsInQueue_Key'] = history_OfDrawTexts_PerBot_AsObject_AllObjectsInQueue
         
+                history_OfDrawLines_PerBot_AsObject_AllObjectsInQueue = history_OfDrawLines_PerBot_AsObject_AllObjectsInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawLines_LightLastDelta_PerBot_AsObject_AllObjectsInQueue_Key']
+                graph.delete_figure(history_OfDrawLines_PerBot_AsObject_AllObjectsInQueue.get(history_OfDrawLines_PerBot_AsGraphicObject))
+
+                history_OfDrawLines_PerBot_AsObject_AllObjectsInQueue = history_OfDrawLines_PerBot_AsObject_AllObjectsInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawLines_MagnetLastDelta_PerBot_AsObject_AllObjectsInQueue_Key']
+                graph.delete_figure(history_OfDrawLines_PerBot_AsObject_AllObjectsInQueue.get(history_OfDrawLines_PerBot_AsGraphicObject))
             
             ###jwc y window['-GRAPH-'].DrawLine((lastX1, rowData_ForOneBot['light_total_old']), 
             ###jwc n str window['-GRAPH-'].DrawLine((lastx, rowData_ForOneBot['light_total_old']), 
             ###jwc n window['-GRAPH-'].DrawLine((lastx, int(rowData_ForOneBot['light_total_old'])), 
             
             ###jwc o window['-GRAPH-'].DrawLine((lastx, rowData_ForOneBot['light_total_old']), 
-            ###jwc o                            ###jwc y (x, int(rowData_ForOneBot['light_total'])), 
             ###jwc o                            (x, rowData_ForOneBot['light_total']), 
             ###jwc o                            color='blue', 
             ###jwc o                            width=1)
-            rowData_ForOneBot_Y_Now = int( rowData_ForOneBot['light_total'] / graph_Vertical_Divider_Int )
-            rowData_ForOneBot_Y_Old = int( rowData_ForOneBot['light_total_old'] / graph_Vertical_Divider_Int )
+            ###jwc y rowData_ForOneBot_Y_Now = int( rowData_ForOneBot['light_total'] / graph_Vertical_Divider_Int )
+            ###jwc y rowData_ForOneBot_Y_Old = int( rowData_ForOneBot['light_total_old'] / graph_Vertical_Divider_Int )
 
-            history_OfDrawLines_PerBot_AsGraphicObject = window['-GRAPH-'].DrawLine((lastx, rowData_ForOneBot_Y_Old), 
-                                    ###jwc y (x, int(rowData_ForOneBot['light_total'])), 
-                                    (x, rowData_ForOneBot_Y_Now), 
-                                    color='blue', 
-                                    width=1)
-            history_OfDrawLines_PerBot_AsObject_ManyInQueue = history_OfDrawLines_PerBot_AsObject_ManyInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawLines_PerBot_AsObject_ManyInQueue_Key']
-            history_OfDrawLines_PerBot_AsObject_ManyInQueue.put(history_OfDrawLines_PerBot_AsGraphicObject)
+            rowData_ForOneBot_Y_Now = int( rowData_ForOneBot['grand_total'] / graph_Vertical_Divider_Int )
+            rowData_ForOneBot_Y_Old = int( rowData_ForOneBot['grand_total_old'] / graph_Vertical_Divider_Int )
+            
+            rowData_ForOneBot_Y_LightLastDelta_Now = rowData_ForOneBot_Y_Now + int( rowData_ForOneBot['light_lastdelta'] / graph_Vertical_Divider_Int )
+            rowData_ForOneBot_Y_MagnetLastDelta_Now = rowData_ForOneBot_Y_Now - int( rowData_ForOneBot['magnet_lastdelta'] / graph_Vertical_Divider_Int )
 
+
+            history_OfDrawLines_PerBot_AsGraphicObject = window['-GRAPH-'].DrawLine(
+                                                                                    (lastx, rowData_ForOneBot_Y_Old), 
+                                                                                    (x, rowData_ForOneBot_Y_Now), 
+                                                                                    color='blue', 
+                                                                                    width=1)
+            history_OfDrawLines_PerBot_AsObject_AllObjectsInQueue = history_OfDrawLines_PerBot_AsObject_AllObjectsInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawLines_PerBot_AsObject_AllObjectsInQueue_Key']
+            history_OfDrawLines_PerBot_AsObject_AllObjectsInQueue.put(history_OfDrawLines_PerBot_AsGraphicObject)
+            
+            history_OfDrawLines_PerBot_AsGraphicObject = window['-GRAPH-'].DrawLine(
+                                                                                    (x, rowData_ForOneBot_Y_Now), 
+                                                                                    (x, rowData_ForOneBot_Y_LightLastDelta_Now), 
+                                                                                    color='red', 
+                                                                                    width=1)
+            history_OfDrawLines_PerBot_AsObject_AllObjectsInQueue = history_OfDrawLines_PerBot_AsObject_AllObjectsInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawLines_LightLastDelta_PerBot_AsObject_AllObjectsInQueue_Key']
+            history_OfDrawLines_PerBot_AsObject_AllObjectsInQueue.put(history_OfDrawLines_PerBot_AsGraphicObject)
+
+            history_OfDrawLines_PerBot_AsGraphicObject = window['-GRAPH-'].DrawLine(
+                                                                                    (x, rowData_ForOneBot_Y_Now), 
+                                                                                    (x, rowData_ForOneBot_Y_MagnetLastDelta_Now), 
+                                                                                    color='green', 
+                                                                                    width=1)
+            history_OfDrawLines_PerBot_AsObject_AllObjectsInQueue = history_OfDrawLines_PerBot_AsObject_AllObjectsInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawLines_MagnetLastDelta_PerBot_AsObject_AllObjectsInQueue_Key']
+            history_OfDrawLines_PerBot_AsObject_AllObjectsInQueue.put(history_OfDrawLines_PerBot_AsGraphicObject)
+            
+            
             ###jwc n window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x, rowData_ForOneBot_Y_Now+5), font=('Arial', 6), text_location='right')
             ###jwc y window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x-5, rowData_ForOneBot_Y_Now+5))
             ###jwc y window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x-5, rowData_ForOneBot_Y_Now+5), font=('Arial', 10))
@@ -429,11 +471,12 @@ while True:                             # Event Loop
             ###jwc 23-0527-1320 y5? history_OfDrawLines_Queues_ManyBots_2D[rowData_ForOneBot['bot_id']].put(history_OfDrawTexts_PerBot_AsGraphicObject)
                                 
             history_OfDrawTexts_PerBot_AsGraphicObject = window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x-5, rowData_ForOneBot_Y_Now+5), font=('Arial', 4))
-            history_OfDrawTexts_PerBot_AsObject_ManyInQueue = history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawTexts_PerBot_AsObject_ManyInQueue_Key']
-            history_OfDrawTexts_PerBot_AsObject_ManyInQueue.put(history_OfDrawTexts_PerBot_AsGraphicObject)
-            ###jwc seems not needed y: history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawTexts_PerBot_AsObject_ManyInQueue_Key'] = history_OfDrawTexts_PerBot_AsObject_ManyInQueue
+            history_OfDrawTexts_PerBot_AsObject_AllObjectsInQueue = history_OfDrawTexts_PerBot_AsObject_AllObjectsInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawTexts_PerBot_AsObject_AllObjectsInQueue_Key']
+            history_OfDrawTexts_PerBot_AsObject_AllObjectsInQueue.put(history_OfDrawTexts_PerBot_AsGraphicObject)
+            ###jwc seems not needed y: history_OfDrawTexts_PerBot_AsObject_AllObjectsInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawTexts_PerBot_AsObject_AllObjectsInQueue_Key'] = history_OfDrawTexts_PerBot_AsObject_AllObjectsInQueue
             
-            rowData_ForOneBot['light_total_old'] = rowData_ForOneBot['light_total']
+            ###jwc y rowData_ForOneBot['light_total_old'] = rowData_ForOneBot['light_total']
+            rowData_ForOneBot['grand_total_old'] = rowData_ForOneBot['grand_total']
     
     
     ###jwc y if x < (GRAPH_SIZE[0]-20):               # if still drawing initial width of graph
