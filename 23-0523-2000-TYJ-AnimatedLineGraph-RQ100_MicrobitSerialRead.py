@@ -1,6 +1,7 @@
 ###jwc o import PySimpleGUI as sg
 ###jwc n 'step_size' is 'str' error: import PySimpleGUIWeb as sg
-import PySimpleGUI as sg
+###jwc o import PySimpleGUI as sg
+import PySimpleGUIWeb as sg
 
 from random import randint
 
@@ -9,6 +10,11 @@ import serial
 
 rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int = 0
 
+###jwc TODO https://www.w3schools.com/python/python_dictionaries_nested.asp
+###jwc TODO rowData_ArrayList_OfDictionaryPairs_ForAllBots = { 
+###jwc TODO                                                   {},
+###jwc TODO                                                   {},
+###jwc TODO                                                   }
 rowData_ArrayList_OfDictionaryPairs_ForAllBots = [
     ###jwc y {'row_id':'.Test_Row', 'bot_id':'Test_Bot', 'mission_status':'-', 'team_id':'-', 'light_lastdelta':100, 'light_total':1000, 'magnet_lastdelta':10000, 'magnet_total':100000},
     ###jwc y {'row_id':'.Test_Row_21', 'bot_id':'Test_Bot_21', 'mission_status':'-', 'team_id':'-', 'light_lastdelta':21, 'light_total':22, 'magnet_lastdelta':23, 'magnet_total':24},
@@ -75,35 +81,6 @@ ser = serial.Serial(
 _debug_Show_Priority_Hi_Bool = True
 _debug_Show_Priority_Lo_Bool = False
 
-
-
-graph_Vertical_MAX_INT = 300
-graph_Vertical_Now_Int = graph_Vertical_MAX_INT
-graph_Vertical_Divider_Int = 1
-graph_Vertical_MULTIPLIER_INT = 2
-
-###jwc o GRAPH_SIZE = (400,200)
-###jwc y GRAPH_SIZE = (400,400)
-###jwc n too tall GRAPH_SIZE = (400,20000)
-###jwc n GRAPH_SIZE = (500,500)
-GRAPH_SIZE = (600,graph_Vertical_Now_Int)
-###jwc y GRAPH_STEP_SIZE = 5
-GRAPH_STEP_SIZE = 15
-
-sg.change_look_and_feel('LightGreen')
-
-layout = [  
-            ### jwc y [sg.Graph(GRAPH_SIZE, (0,0), GRAPH_SIZE, key='-GRAPH-', background_color='lightblue')],
-            [sg.Graph(GRAPH_SIZE, (0,0), GRAPH_SIZE, key='-GRAPH-', background_color='lightblue'), sg.Slider((0,30), default_value=15, orientation='h', key='-DELAY2-')],
-            [sg.Text('graph_Vertical_Now_Int:'), sg.Text(key='-graph_Vertical_Now_Int-'), sg.Text('graph_Vertical_Divider_Int:'), sg.Text(key='-graph_Vertical_Divider_Int-')],
-            [sg.Text('Milliseconds per sample:', size=(20,1)), sg.Slider((0,30), default_value=15, orientation='h', key='-DELAY-'), sg.Text('Pixels per sample:', size=(20,1)), sg.Slider((0,30), default_value=GRAPH_STEP_SIZE, orientation='h', key='-STEP-SIZE-')],
-            ###jwc o  sg.Slider((1,30), default_value=GRAPH_STEP_SIZE, orientation='h', key='-STEP-SIZE-')],
-            [sg.Button('Exit')]
-            ]
-
-window = sg.Window('Animated Line Graph Example', layout)
-
-
 #
 # receive_Microbit_Messages_Fn
 #
@@ -135,8 +112,8 @@ def receive_Microbit_Messages_Fn() -> None:
         ###jwc o not neeeded: print(newData)
         
         if _debug_Show_Priority_Hi_Bool:
-            print("* A: Raw String: ")
-            print("  A1:network_DataMessage_Rcvd_Bytes:" + str(network_DataMessage_Rcvd_Bytes) +"|")
+            ###jwc y print("* A: Raw String: ")
+            print("* A1:network_DataMessage_Rcvd_Bytes:" + str(network_DataMessage_Rcvd_Bytes) +"|")
 
         ###jwc o network_DataMessage_Rcvd_Str = network_DataMessage_Rcvd_Bytes
         network_DataMessage_Rcvd_Str = str(network_DataMessage_Rcvd_Bytes)
@@ -158,7 +135,15 @@ def receive_Microbit_Messages_Fn() -> None:
         network_DataMessage_Rcvd_Str = network_DataMessage_Rcvd_Str.strip()
         # invalid 'network_DataMessage_Rcvd_Str' will be detected here 'ValueError: substring not found' 
         # \ and thus abort and retry w/ new 'network_DataMessage_Rcvd_Str'
-        network_DataMessage_Rcvd_Str = network_DataMessage_Rcvd_Str[network_DataMessage_Rcvd_Str.index("#"):]
+        # Filter out preceding "b'" header text
+        try:
+            network_DataMessage_Rcvd_Str = network_DataMessage_Rcvd_Str[network_DataMessage_Rcvd_Str.index("#"):]
+        except ValueError:
+            print("!!! 23-0526-2230 'except ValueError' 1:" + str(network_DataMessage_Rcvd_Str) + "|")
+            return
+        except:
+            print("!!! 23-0526-2240 non-'except ValueError' 1:" + str(network_DataMessage_Rcvd_Str) + "|")
+            return
 
         ###jwc o if _debug_Show_Priority_Lo_Bool:
         ###jwc o     ###jwc o print replaced by 'print'
@@ -194,9 +179,11 @@ def receive_Microbit_Messages_Fn() -> None:
                 except ValueError:
                     scoreboard_DataMessage_Rcvd_Dict[key_Value_Pair__Key]=str(key_Value_Pair__Value)
                     print("!!! 23-0519-1200 'except ValueError' 1:" + str(scoreboard_DataMessage_Rcvd_Dict[key_Value_Pair__Key]) + " 2:" + str(key_Value_Pair__Key) + " 3:" + str(key_Value_Pair__Value) + "|")
+                    return
                 except:
                     print("!!! 23-0519-1210 non-'except ValueError'")
-
+                    return
+                
                 if _debug_Show_Priority_Lo_Bool:
                     print("* B: Parsed Key:key_Value_Pair:")
                     print("  1:key_Value_Pair|key_Value_Pair__Key|key_Value_Pair__Value: " + key_Value_Pair +"|"+ key_Value_Pair__Key +"|"+ key_Value_Pair__Value +"|")
@@ -249,7 +236,7 @@ def receive_Microbit_Messages_Fn() -> None:
 
             if _debug_Show_Priority_Hi_Bool:
                 ###jwc yy print("  D1aa:" + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots))
-                print("*  D1:" + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots[rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int]))
+                print("* D1:" + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots[rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int]))
                 ###jwc y print("  D1ab:" + str(rowData_OfDictionaryPairs_ForABot_Empty_Local))
             ###jwc yy rowData_ArrayList_OfDictionaryPairs_ForAllBots.append(rowData_OfDictionaryPairs_ForABot_Empty_Local)
 
@@ -260,6 +247,9 @@ def receive_Microbit_Messages_Fn() -> None:
             ###jwc n rowData_ArrayList_OfDictionaryPairs_ForAllBots[rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int]['light_total_old'] = 0
             rowData_ArrayList_OfDictionaryPairs_ForAllBots[rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int]['magnet_lastdelta'] = scoreboard_DataMessage_Rcvd_Dict['M']
             rowData_ArrayList_OfDictionaryPairs_ForAllBots[rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int]['magnet_total'] = scoreboard_DataMessage_Rcvd_Dict['M']
+ 
+            ###jwc n history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList[rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int] = {'history_OfDrawLines_PerBot_AsObject_ManyInQueue_Key': Queue()}
+            history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList[scoreboard_DataMessage_Rcvd_Dict['#']] = {'history_OfDrawLines_PerBot_AsObject_ManyInQueue_Key': Queue()}
             
             if _debug_Show_Priority_Hi_Bool:
                 print("  D2:" + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots[rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int]))
@@ -273,9 +263,69 @@ def receive_Microbit_Messages_Fn() -> None:
     else:
         print("*** No Serial Read *** ")
 
+#
+# pySimpleGui
+#
 
+from queue import Queue
+
+graph_Vertical_MAX_INT = 300
+graph_Vertical_Now_Int = graph_Vertical_MAX_INT
+graph_Vertical_Divider_Int = 1
+graph_Vertical_MULTIPLIER_INT = 2
+
+###jwc o GRAPH_SIZE = (400,200)
+###jwc y GRAPH_SIZE = (400,400)
+###jwc n too tall GRAPH_SIZE = (400,20000)
+###jwc n GRAPH_SIZE = (500,500)
+GRAPH_SIZE = (600,graph_Vertical_Now_Int)
+###jwc y GRAPH_STEP_SIZE = 5
+GRAPH_STEP_SIZE = 15
+
+sg.change_look_and_feel('LightGreen')
+
+###jwc ? history_OfDrawLines_List_Of_Objects = Queue()
+###jwc ? history_OfDrawLine_Object = None
+
+###jwc y? history_OfDrawLines_Queue_ABot_1D = Queue()
+###hwc y?n history_OfDrawLines_Queue_ABot_1D = {1:{'Queue': Queue()}}
+
+
+###jwc 23-0527-1320 y5? history_OfDrawLines_Queue_ABot_1D = {1:Queue()}
+###jwc y? history_OfDrawLines_Queues_ManyBots_2D = {1:{'DrawLine_Figure_Object':None}}
+###jwc y? history_OfDrawLines_Queues_ManyBots_2D = {1:{'DrawLine_Figure_Object_Queue':None}}
+###jwc yy? history_OfDrawLines_Queues_ManyBots_2D = {1:None}
+
+###jwc y4? history_OfDrawLines_Queues_ManyBots_2D = {1:{'DrawLine_Figure_Object_Queue':Queue()}}
+###jwc 23-0527-1320 y5? history_OfDrawLines_Queues_ManyBots_2D = {1:Queue()}
+
+###jwc 23-0527-1320 y5? history_OfDrawLines_Queues_ManyBots_2D = {1:{'DrawLine_Figure_Object_Queue':None}}
+
+
+history_OfDrawTexts_PerBot_AsGraphicObject = None
+
+history_OfDrawTexts_PerBot_AsObject_ManyInQueue = Queue()
+
+###jwc y history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList = {1:{'history_OfDrawLines_PerBot_AsObject_ManyInQueue_Key':None}}
+history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList = {1:{'history_OfDrawLines_PerBot_AsObject_ManyInQueue_Key':Queue()}}
+
+
+layout = [  
+            ### jwc y [sg.Graph(GRAPH_SIZE, (0,0), GRAPH_SIZE, key='-GRAPH-', background_color='lightblue')],
+            [sg.Graph(GRAPH_SIZE, (0,0), GRAPH_SIZE, key='-GRAPH-', background_color='lightblue'), sg.Slider((0,30), default_value=15, orientation='h', key='-DELAY2-')],
+            [sg.Text('graph_Vertical_Now_Int:'), sg.Text(key='-graph_Vertical_Now_Int-'), sg.Text('graph_Vertical_Divider_Int:'), sg.Text(key='-graph_Vertical_Divider_Int-')],
+            [sg.Text('Milliseconds per sample:', size=(20,1)), sg.Slider((0,30), default_value=15, orientation='h', key='-DELAY-'), sg.Text('Pixels per sample:', size=(20,1)), sg.Slider((0,30), default_value=GRAPH_STEP_SIZE, orientation='h', key='-STEP-SIZE-')],
+            ###jwc o  sg.Slider((1,30), default_value=GRAPH_STEP_SIZE, orientation='h', key='-STEP-SIZE-')],
+            [sg.Button('Exit')]
+            ]
+
+###jwc y window = sg.Window('Animated Line Graph Example', layout)
+window = sg.Window('Animated Line Graph Example', layout, web_port=5000)
+graph = window["-GRAPH-"]  # type: sg.Graph
 
 delay = x = lastx = lasty = 0
+
+wrapAround_Bool = False
 
 ###jwc y lastX1 = lastY1 = 0
 
@@ -293,18 +343,37 @@ while True:                             # Event Loop
     window['-graph_Vertical_Now_Int-'].update(graph_Vertical_Now_Int)
     window['-graph_Vertical_Divider_Int-'].update(graph_Vertical_Divider_Int)
 
-    step_size, delay = values['-STEP-SIZE-'], values['-DELAY-']
+    ###jwc o for web, convert text to int: step_size, delay = values['-STEP-SIZE-'], values['-DELAY-']
+    step_size, delay = int(values['-STEP-SIZE-']), int(values['-DELAY-'])
     
     values['-graph_Vertical_Divider_Int-'] = graph_Vertical_Divider_Int
     
     y = randint(0,GRAPH_SIZE[1])        # get random point for graph
     ###jwc y but need to shift sooner: if x < GRAPH_SIZE[0]:               # if still drawing initial width of graph
-    if x < (GRAPH_SIZE[0]-20):               # if still drawing initial width of graph
-        ###jwc o window['-GRAPH-'].DrawLine((lastx, lasty), (x, y), width=1)
-        ###jwc o window['-GRAPH-'].DrawLine((lastx, lasty+10), (x, y+10), color='green', width=1)
-        ###jwc o window['-GRAPH-'].DrawLine((lastX1, lastY1), (x, int(rowData_ArrayList_OfDictionaryPairs_ForAllBots[0]['light_total'])), color='yellow', width=1)
+    
+    if x > (GRAPH_SIZE[0]-20):
+        x, lastx = 0, 0
+        ###jwc y window['-GRAPH-'].erase()
+        wrapAround_Bool = True
+    
+    for rowData_ForOneBot in rowData_ArrayList_OfDictionaryPairs_ForAllBots:
+        
+        ###jwc y rowData_ForOneBot_BotLabel = str(rowData_ForOneBot['bot_id']) +':'+ str(rowData_ForOneBot['light_lastdelta']) +':'+ str(rowData_ForOneBot['light_total'])
+        rowData_ForOneBot_BotLabel = str(rowData_ForOneBot['bot_id'])
 
-        for rowData_ForOneBot in rowData_ArrayList_OfDictionaryPairs_ForAllBots:
+        if rowData_ForOneBot_BotLabel != '':
+            
+            # Clear Oldest Existing DrawLine
+            if wrapAround_Bool:
+                ###jwc 23-0527-1320 y5? graph.delete_figure(history_OfDrawLines_Queues_ManyBots_2D[rowData_ForOneBot['bot_id']]['Queue'].get())
+
+                history_OfDrawTexts_PerBot_AsObject_ManyInQueue = history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawLines_PerBot_AsObject_ManyInQueue_Key']
+            
+                graph.delete_figure(history_OfDrawTexts_PerBot_AsObject_ManyInQueue.get(history_OfDrawTexts_PerBot_AsGraphicObject))
+
+                history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawLines_PerBot_AsObject_ManyInQueue_Key'] = history_OfDrawTexts_PerBot_AsObject_ManyInQueue
+        
+            
             ###jwc y window['-GRAPH-'].DrawLine((lastX1, rowData_ForOneBot['light_total_old']), 
             ###jwc n str window['-GRAPH-'].DrawLine((lastx, rowData_ForOneBot['light_total_old']), 
             ###jwc n window['-GRAPH-'].DrawLine((lastx, int(rowData_ForOneBot['light_total_old'])), 
@@ -316,67 +385,126 @@ while True:                             # Event Loop
             ###jwc o                            width=1)
             rowData_ForOneBot_Y_Now = int( rowData_ForOneBot['light_total'] / graph_Vertical_Divider_Int )
             rowData_ForOneBot_Y_Old = int( rowData_ForOneBot['light_total_old'] / graph_Vertical_Divider_Int )
-            ###jwc y rowData_ForOneBot_BotLabel = str(rowData_ForOneBot['bot_id']) +':'+ str(rowData_ForOneBot['light_lastdelta']) +':'+ str(rowData_ForOneBot['light_total'])
-            rowData_ForOneBot_BotLabel = str(rowData_ForOneBot['bot_id'])
 
             window['-GRAPH-'].DrawLine((lastx, rowData_ForOneBot_Y_Old), 
-                                       ###jwc y (x, int(rowData_ForOneBot['light_total'])), 
-                                       (x, rowData_ForOneBot_Y_Now), 
-                                       color='blue', 
-                                       width=1)
+                                    ###jwc y (x, int(rowData_ForOneBot['light_total'])), 
+                                    (x, rowData_ForOneBot_Y_Now), 
+                                    color='blue', 
+                                    width=1)
             ###jwc n window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x, rowData_ForOneBot_Y_Now+5), font=('Arial', 6), text_location='right')
             ###jwc y window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x-5, rowData_ForOneBot_Y_Now+5))
             ###jwc y window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x-5, rowData_ForOneBot_Y_Now+5), font=('Arial', 10))
             ###jwc y window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x-5, rowData_ForOneBot_Y_Now+5), font=('Arial', 6))
-            window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x-5, rowData_ForOneBot_Y_Now+5), font=('Arial', 4), text_location='center')
+            ###jwc n Web: TypeError: DrawText() got an unexpected keyword argument 'text_location': window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x-5, rowData_ForOneBot_Y_Now+5), font=('Arial', 4), text_location='center')
+                    
+            ###jwc yy window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x-5, rowData_ForOneBot_Y_Now+5), font=('Arial', 4)))
+            ###jwc y? history_OfDrawLines_Queue_ABot_1D.put(window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x-5, rowData_ForOneBot_Y_Now+5), font=('Arial', 4)))
+            ###jwc 23-0527-1320 y5? history_OfDrawTexts_PerBot_AsGraphicObject = window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x-5, rowData_ForOneBot_Y_Now+5), font=('Arial', 4))
+            
+            
+            ###jwc n history_OfDrawLines_Queues_ManyBots_2D[rowData_ForOneBot['bot_id']]['Queue':history_OfDrawLines_Queue_ABot_1D]
+            ###jwc y? history_OfDrawLines_Queues_ManyBots_2D[rowData_ForOneBot['bot_id']] = {'DrawLine_Figure_Object':history_OfDrawLines_Queue_ABot_1D}
+            
+            ###jwc y? history_OfDrawLines_Queues_ManyBots_2D[rowData_ForOneBot['bot_id']] = {'DrawLine_Figure_Object':history_OfDrawLines_Queue_ABot_1D}
+            ###jwc y? history_OfDrawLines_Queues_ManyBots_2D[rowData_ForOneBot['bot_id']].put(history_OfDrawTexts_PerBot_AsGraphicObject)
+            ###jwc y?n history_OfDrawLines_Queue_ABot_1D[rowData_ForOneBot['bot_id']]['Queue'].put(history_OfDrawTexts_PerBot_AsGraphicObject)
+            ###jwc y3? history_OfDrawLines_Queue_ABot_1D[rowData_ForOneBot['bot_id']].put(history_OfDrawTexts_PerBot_AsGraphicObject)
+
+            ###jwc y4? history_OfDrawLines_Queues_ManyBots_2D[rowData_ForOneBot['bot_id']]['DrawLine_Figure_Object_Queue'].put(history_OfDrawTexts_PerBot_AsGraphicObject)
+            ###jwc 23-0527-1320 y5? history_OfDrawLines_Queues_ManyBots_2D[rowData_ForOneBot['bot_id']].put(history_OfDrawTexts_PerBot_AsGraphicObject)
+                    
+            
+            history_OfDrawTexts_PerBot_AsGraphicObject = window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x-5, rowData_ForOneBot_Y_Now+5), font=('Arial', 4))
+
+            history_OfDrawTexts_PerBot_AsObject_ManyInQueue = history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawLines_PerBot_AsObject_ManyInQueue_Key']
+            
+            history_OfDrawTexts_PerBot_AsObject_ManyInQueue.put(history_OfDrawTexts_PerBot_AsGraphicObject)
+            
+            ###jwc seems not needed y: history_OfDrawTexts_PerBot_AsObject_ManyInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawLines_PerBot_AsObject_ManyInQueue_Key'] = history_OfDrawTexts_PerBot_AsObject_ManyInQueue
+            
             
             rowData_ForOneBot['light_total_old'] = rowData_ForOneBot['light_total']
     
-    else:                               # finished drawing full graph width so move each time to make room
-        ###jwc ? 'str' window['-GRAPH-'].Move(-step_size, 0)
-        ###jwc y window['-GRAPH-'].Move(-1*int(step_size), 0)
-        window['-GRAPH-'].Move(-step_size, 0)
-        ###jwc o window['-GRAPH-'].DrawLine((lastx, lasty), (x, y), width=1)
-        ###jwc o window['-GRAPH-'].DrawLine((lastx, lasty+10), (x, y+10), color='green', width=1)
-        ###jwc o window['-GRAPH-'].DrawLine((lastX1, lastY1), (x, int(rowData_ArrayList_OfDictionaryPairs_ForAllBots[0]['light_total'])), color='yellow', width=1)
-
-        ###jwc on for rowData_ForOneBot in rowData_ArrayList_OfDictionaryPairs_ForAllBots:
-        ###jwc on     ###jwc y window['-GRAPH-'].DrawLine((lastX1, rowData_ForOneBot['light_total_old']), 
-        ###jwc on     window['-GRAPH-'].DrawLine((lastx, rowData_ForOneBot['light_total_old']), 
-        ###jwc on                                ###jwc y (x, int(rowData_ForOneBot['light_total'])), 
-        ###jwc on                                (x, rowData_ForOneBot['light_total']), 
-        ###jwc on                                color='blue', 
-        ###jwc on                                width=1)
-        ###jwc on     rowData_ForOneBot['light_total_old'] = rowData_ForOneBot['light_total']
-
-
-        for rowData_ForOneBot in rowData_ArrayList_OfDictionaryPairs_ForAllBots:
-            ###jwc y window['-GRAPH-'].DrawLine((lastX1, rowData_ForOneBot['light_total_old']), 
-            ###jwc n str window['-GRAPH-'].DrawLine((lastx, rowData_ForOneBot['light_total_old']), 
-            ###jwc n window['-GRAPH-'].DrawLine((lastx, int(rowData_ForOneBot['light_total_old'])), 
-            
-            ###jwc o window['-GRAPH-'].DrawLine((lastx, rowData_ForOneBot['light_total_old']), 
-            ###jwc o                            ###jwc y (x, int(rowData_ForOneBot['light_total'])), 
-            ###jwc o                            (x, rowData_ForOneBot['light_total']), 
-            ###jwc o                            color='blue', 
-            ###jwc o                            width=1)
-            rowData_ForOneBot_Y_Now = int( rowData_ForOneBot['light_total'] / graph_Vertical_Divider_Int )
-            rowData_ForOneBot_Y_Old = int( rowData_ForOneBot['light_total_old'] / graph_Vertical_Divider_Int )
-            rowData_ForOneBot_BotLabel = str(rowData_ForOneBot['bot_id'])
-
-            window['-GRAPH-'].DrawLine((lastx, rowData_ForOneBot_Y_Old), 
-                                       ###jwc y (x, int(rowData_ForOneBot['light_total'])), 
-                                       (x, rowData_ForOneBot_Y_Now), 
-                                       color='blue', 
-                                       width=1)
-            
-            window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x-5, rowData_ForOneBot_Y_Now+5), font=('Arial', 4), text_location='center')
-
-            rowData_ForOneBot['light_total_old'] = rowData_ForOneBot['light_total']
-
-        ###jwc ? 'str' x -= step_size
-        ###jwc y x -= int(step_size)
-        x -= step_size
+    
+    ###jwc y if x < (GRAPH_SIZE[0]-20):               # if still drawing initial width of graph
+    ###jwc y     ###jwc o window['-GRAPH-'].DrawLine((lastx, lasty), (x, y), width=1)
+    ###jwc y     ###jwc o window['-GRAPH-'].DrawLine((lastx, lasty+10), (x, y+10), color='green', width=1)
+    ###jwc y     ###jwc o window['-GRAPH-'].DrawLine((lastX1, lastY1), (x, int(rowData_ArrayList_OfDictionaryPairs_ForAllBots[0]['light_total'])), color='yellow', width=1)
+    ###jwc y 
+    ###jwc y     for rowData_ForOneBot in rowData_ArrayList_OfDictionaryPairs_ForAllBots:
+    ###jwc y         ###jwc y window['-GRAPH-'].DrawLine((lastX1, rowData_ForOneBot['light_total_old']), 
+    ###jwc y         ###jwc n str window['-GRAPH-'].DrawLine((lastx, rowData_ForOneBot['light_total_old']), 
+    ###jwc y         ###jwc n window['-GRAPH-'].DrawLine((lastx, int(rowData_ForOneBot['light_total_old'])), 
+    ###jwc y         
+    ###jwc y         ###jwc o window['-GRAPH-'].DrawLine((lastx, rowData_ForOneBot['light_total_old']), 
+    ###jwc y         ###jwc o                            ###jwc y (x, int(rowData_ForOneBot['light_total'])), 
+    ###jwc y         ###jwc o                            (x, rowData_ForOneBot['light_total']), 
+    ###jwc y         ###jwc o                            color='blue', 
+    ###jwc y         ###jwc o                            width=1)
+    ###jwc y         rowData_ForOneBot_Y_Now = int( rowData_ForOneBot['light_total'] / graph_Vertical_Divider_Int )
+    ###jwc y         rowData_ForOneBot_Y_Old = int( rowData_ForOneBot['light_total_old'] / graph_Vertical_Divider_Int )
+    ###jwc y         ###jwc y rowData_ForOneBot_BotLabel = str(rowData_ForOneBot['bot_id']) +':'+ str(rowData_ForOneBot['light_lastdelta']) +':'+ str(rowData_ForOneBot['light_total'])
+    ###jwc y         rowData_ForOneBot_BotLabel = str(rowData_ForOneBot['bot_id'])
+    ###jwc y 
+    ###jwc y         window['-GRAPH-'].DrawLine((lastx, rowData_ForOneBot_Y_Old), 
+    ###jwc y                                    ###jwc y (x, int(rowData_ForOneBot['light_total'])), 
+    ###jwc y                                    (x, rowData_ForOneBot_Y_Now), 
+    ###jwc y                                    color='blue', 
+    ###jwc y                                    width=1)
+    ###jwc y         ###jwc n window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x, rowData_ForOneBot_Y_Now+5), font=('Arial', 6), text_location='right')
+    ###jwc y         ###jwc y window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x-5, rowData_ForOneBot_Y_Now+5))
+    ###jwc y         ###jwc y window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x-5, rowData_ForOneBot_Y_Now+5), font=('Arial', 10))
+    ###jwc y         ###jwc y window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x-5, rowData_ForOneBot_Y_Now+5), font=('Arial', 6))
+    ###jwc y         window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x-5, rowData_ForOneBot_Y_Now+5), font=('Arial', 4), text_location='center')
+    ###jwc y         
+    ###jwc y         rowData_ForOneBot['light_total_old'] = rowData_ForOneBot['light_total']
+    ###jwc y 
+    ###jwc y else:                               # finished drawing full graph width so move each time to make room
+    ###jwc y     ###jwc ? 'str' window['-GRAPH-'].Move(-step_size, 0)
+    ###jwc y     ###jwc y window['-GRAPH-'].Move(-1*int(step_size), 0)
+    ###jwc y     window['-GRAPH-'].Move(-step_size, 0)
+    ###jwc y     ###jwc o window['-GRAPH-'].DrawLine((lastx, lasty), (x, y), width=1)
+    ###jwc y     ###jwc o window['-GRAPH-'].DrawLine((lastx, lasty+10), (x, y+10), color='green', width=1)
+    ###jwc y     ###jwc o window['-GRAPH-'].DrawLine((lastX1, lastY1), (x, int(rowData_ArrayList_OfDictionaryPairs_ForAllBots[0]['light_total'])), color='yellow', width=1)
+    ###jwc y 
+    ###jwc y     ###jwc on for rowData_ForOneBot in rowData_ArrayList_OfDictionaryPairs_ForAllBots:
+    ###jwc y     ###jwc on     ###jwc y window['-GRAPH-'].DrawLine((lastX1, rowData_ForOneBot['light_total_old']), 
+    ###jwc y     ###jwc on     window['-GRAPH-'].DrawLine((lastx, rowData_ForOneBot['light_total_old']), 
+    ###jwc y     ###jwc on                                ###jwc y (x, int(rowData_ForOneBot['light_total'])), 
+    ###jwc y     ###jwc on                                (x, rowData_ForOneBot['light_total']), 
+    ###jwc y     ###jwc on                                color='blue', 
+    ###jwc y     ###jwc on                                width=1)
+    ###jwc y     ###jwc on     rowData_ForOneBot['light_total_old'] = rowData_ForOneBot['light_total']
+    ###jwc y 
+    ###jwc y 
+    ###jwc y     for rowData_ForOneBot in rowData_ArrayList_OfDictionaryPairs_ForAllBots:
+    ###jwc y         ###jwc y window['-GRAPH-'].DrawLine((lastX1, rowData_ForOneBot['light_total_old']), 
+    ###jwc y         ###jwc n str window['-GRAPH-'].DrawLine((lastx, rowData_ForOneBot['light_total_old']), 
+    ###jwc y         ###jwc n window['-GRAPH-'].DrawLine((lastx, int(rowData_ForOneBot['light_total_old'])), 
+    ###jwc y         
+    ###jwc y         ###jwc o window['-GRAPH-'].DrawLine((lastx, rowData_ForOneBot['light_total_old']), 
+    ###jwc y         ###jwc o                            ###jwc y (x, int(rowData_ForOneBot['light_total'])), 
+    ###jwc y         ###jwc o                            (x, rowData_ForOneBot['light_total']), 
+    ###jwc y         ###jwc o                            color='blue', 
+    ###jwc y         ###jwc o                            width=1)
+    ###jwc y         rowData_ForOneBot_Y_Now = int( rowData_ForOneBot['light_total'] / graph_Vertical_Divider_Int )
+    ###jwc y         rowData_ForOneBot_Y_Old = int( rowData_ForOneBot['light_total_old'] / graph_Vertical_Divider_Int )
+    ###jwc y         rowData_ForOneBot_BotLabel = str(rowData_ForOneBot['bot_id'])
+    ###jwc y 
+    ###jwc y         window['-GRAPH-'].DrawLine((lastx, rowData_ForOneBot_Y_Old), 
+    ###jwc y                                    ###jwc y (x, int(rowData_ForOneBot['light_total'])), 
+    ###jwc y                                    (x, rowData_ForOneBot_Y_Now), 
+    ###jwc y                                    color='blue', 
+    ###jwc y                                    width=1)
+    ###jwc y         
+    ###jwc y         window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x-5, rowData_ForOneBot_Y_Now+5), font=('Arial', 4), text_location='center')
+    ###jwc y 
+    ###jwc y         rowData_ForOneBot['light_total_old'] = rowData_ForOneBot['light_total']
+    ###jwc y 
+    ###jwc y     ###jwc ? 'str' x -= step_size
+    ###jwc y     ###jwc y x -= int(step_size)
+    ###jwc y     x -= step_size
+    
     lastx, lasty = x, y
     
     ###jwc y lastX1, lastY1 = x, rowData_ArrayList_OfDictionaryPairs_ForAllBots[0]['light_total']
