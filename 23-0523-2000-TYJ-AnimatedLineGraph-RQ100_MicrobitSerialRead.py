@@ -1,6 +1,7 @@
 ###jwc o import PySimpleGUI as sg
 ###jwc n 'step_size' is 'str' error: import PySimpleGUIWeb as sg
 ###jwc o import PySimpleGUI as sg
+###jwc yy works with local debugger:  import PySimpleGUI as sg
 import PySimpleGUIWeb as sg
 
 from random import randint
@@ -314,7 +315,8 @@ GRAPH_SIZE = (graph_Horizontal_MAX_INT, graph_Vertical_MAX_INT)
 ###jwc y GRAPH_STEP_SIZE = 5
 ###jwc y GRAPH_STEP_SIZE = 15
 ###jwc y a little too fast: GRAPH_STEP_SIZE = 30
-GRAPH_STEP_SIZE = 15
+###jwc y round-up to 10s: GRAPH_STEP_SIZE = 15
+GRAPH_STEP_SIZE = 20
 
 sg.change_look_and_feel('LightGreen')
 
@@ -366,19 +368,38 @@ layout = [
 
 ###jwc y window = sg.Window('Animated Line Graph Example', layout)
 ###jwc y window = sg.Window('Animated Line Graph Example', layout, web_port=5000)
+# 'finalize=true': Force complete initialization of window for immediate edits (w/o 'Read' call)
+# 'web_port=5000' :)+
+###jwc yy window = sg.Window('Animated Line Graph Example', layout, finalize=True, web_port=5000)
+###jwc yy window = sg.Window('Animated Line Graph Example', layout, finalize=True)
 window = sg.Window('Animated Line Graph Example', layout, finalize=True, web_port=5000)
+
 graph = window["-GRAPH-"]  # type: sg.Graph
 
-delay = x = lastx = lasty = 0
+###jwc y delay = x = lastx = lasty = 0
+border_Perimeter_MARGIN_INT = 20
+delay = 0
+x = lastx = border_Perimeter_MARGIN_INT
+
+# Horizontal 'Zero' Line
+###jwc n graph.DrawLine((0,0), (graph_Horizontal_Max_Now_Int,0), color='white', width=1, key='-HorizontalNowLine-')   
+horizontalZeroLine_FigureObject = graph.DrawLine((0,0), (graph_Horizontal_Max_Now_Int,0), color='white', width=1)   
+
+###jwc y verticalNowLine_FigureObject = graph.DrawLine((x,-graph_Vertical_Max_Now_Int), (x, graph_Vertical_Max_Now_Int), color='white', width=1)
+###jwc y verticalNowLine_FigureObject = graph.DrawLine((border_Perimeter_MARGIN_INT,-graph_Vertical_Max_Now_Int), (border_Perimeter_MARGIN_INT, graph_Vertical_Max_Now_Int), color='white', width=1)
+###jwc n verticalNowLine_FigureObject = graph.DrawLine((x,-graph_Vertical_Max_Now_Int), (x, graph_Vertical_Max_Now_Int), color='white', width=1)
+
+###jwc n verticalNowPoint_FigureObject = graph.draw_point((x,0), color='red', size=5)
+
+verticalNowLine_FigureObject = graph.DrawLine((x,-graph_Vertical_Max_Now_Int), (x, graph_Vertical_Max_Now_Int), color='white', width=1)
 
 wrapAround_Bool = False
 
-
 # Vertical 'Now' Line
-###jwc n verticalZeroLine_FigureObject = graph.DrawLine((x,-graph_Vertical_Max_Now_Int), (x, graph_Vertical_Max_Now_Int), color='white', width=1, key='-verticalZeroLine-')
-###jwc n verticalZeroLine_FigureObject = graph.DrawLine((x,-graph_Vertical_Max_Now_Int), (x, graph_Vertical_Max_Now_Int), color='white', width=1)
-###jwc n verticalZeroLine_FigureObject = graph.DrawLine((10,100), (10,-100), color='white', width=1)
-###jwc n2 verticalZeroLine_FigureObject = graph.DrawLine((x,-graph_Vertical_Max_Now_Int), (x, graph_Vertical_Max_Now_Int), color='white', width=1)
+###jwc n verticalNowLine_FigureObject = graph.DrawLine((x,-graph_Vertical_Max_Now_Int), (x, graph_Vertical_Max_Now_Int), color='white', width=1, key='-verticalZeroLine-')
+###jwc n verticalNowLine_FigureObject = graph.DrawLine((x,-graph_Vertical_Max_Now_Int), (x, graph_Vertical_Max_Now_Int), color='white', width=1)
+###jwc n verticalNowLine_FigureObject = graph.DrawLine((10,100), (10,-100), color='white', width=1)
+###jwc n2 verticalNowLine_FigureObject = graph.DrawLine((x,-graph_Vertical_Max_Now_Int), (x, graph_Vertical_Max_Now_Int), color='white', width=1)
 
 ###jwc y lastX1 = lastY1 = 0
 
@@ -387,6 +408,8 @@ wrapAround_Bool = False
 #
 ###jwc ? TODO sg.show_debugger_window(location=(10,10))
 ###jwc n sg.show_debugger_window(location=(10,10))
+# !!! Important: 'show_debugger_window' not work with PySimpleGUIWeb, but w/ PySimpleGUI
+# jwc yy sg.show_debugger_window(location=(10,10))
 
 while True:                             # Event Loop
 
@@ -414,23 +437,65 @@ while True:                             # Event Loop
     ###jwc y not needed anymore: y = randint(0,GRAPH_SIZE[1])        # get random point for graph
     ###jwc y but need to shift sooner: if x < GRAPH_SIZE[0]:               # if still drawing initial width of graph
 
-    ###jwc n1 verticalZeroLine_FigureObject = graph.DrawLine((x,-graph_Vertical_Max_Now_Int), (x, graph_Vertical_Max_Now_Int), color='white', width=1)
-    verticalZeroLine_FigureObject = graph.DrawLine((x,-graph_Vertical_Max_Now_Int), (x, graph_Vertical_Max_Now_Int), color='white', width=1)
+    ###jwc n1 verticalNowLine_FigureObject = graph.DrawLine((x,-graph_Vertical_Max_Now_Int), (x, graph_Vertical_Max_Now_Int), color='white', width=1)
+    ###jwc y? verticalNowLine_FigureObject = graph.DrawLine((x,-graph_Vertical_Max_Now_Int), (x, graph_Vertical_Max_Now_Int), color='white', width=1)
     
-    if x > (GRAPH_SIZE[0]-20):
+    ###jwc y if x > (GRAPH_SIZE[0]-20):
+    ###jwc if x > (GRAPH_SIZE[0]-border_Perimeter_MARGIN_INT):
+    # !!! '>=' for earliest detection, since so near boundary
+    if x >= (graph_Horizontal_Max_Now_Int-border_Perimeter_MARGIN_INT):
         ###jwc y x, lastx = 0, 0
-        x, lastx = 0+20, 0+20
+        ###jwc y x, lastx = 0+20, 0+20
+        x = lastx = 0 + border_Perimeter_MARGIN_INT
         ###jwc y window['-GRAPH-'].erase()
         wrapAround_Bool = True
-        graph.relocate_figure(verticalZeroLine_FigureObject,20,0)
+        ###jwc y graph.relocate_figure(verticalNowLine_FigureObject,20,0)
+        ### jwc y graph.relocate_figure(verticalNowLine_FigureObject,-graph_Horizontal_Max_Now_Int+border_Perimeter_MARGIN_INT,0)
+        # !!! 'relocate_figure': relative offset position
+        ###jwc n graph.relocate_figure(verticalNowLine_FigureObject,-graph_Horizontal_Max_Now_Int+border_Perimeter_MARGIN_INT,0)
+        # !!! Important: Absolute Positioning
+        ###jwc y TYJ does work but not intuitive for here? graph.relocate_figure(verticalNowLine_FigureObject,border_Perimeter_MARGIN_INT,0)
+        # !!! Important: Relative Positioning
+        # !!!' relocate_figure': relative offset position
+        # !!! jwc yyy for non-web (coordinates normal): graph.move_figure(verticalNowLine_FigureObject,-(graph_Horizontal_Max_Now_Int-(border_Perimeter_MARGIN_INT*2),0))
+        # !!! jwc yyy for web (coordinates reversed):
+        ###jwc n graph.move_figure(verticalNowLine_FigureObject,+(graph_Horizontal_Max_Now_Int-(border_Perimeter_MARGIN_INT*2),0))
+        ###jwc n graph.move_figure(verticalNowLine_FigureObject,(graph_Horizontal_Max_Now_Int-(border_Perimeter_MARGIN_INT*2)),0)
+        ###jwc n need background_color: graph.update()
+        
+        ### #jwc y AAA graph.delete_figure(verticalNowLine_FigureObject) 
+        ### #jwc y AAA verticalNowLine_FigureObject = graph.DrawLine((x,-graph_Vertical_Max_Now_Int), (x, graph_Vertical_Max_Now_Int), color='white', width=1)
+
+        ###jwc AttributeError: 'SvgLine' object has no attribute 'set_position': graph.relocate_figure(verticalNowLine_FigureObject, x, 0)
+        
+        graph.delete_figure(verticalNowLine_FigureObject) 
+        verticalNowLine_FigureObject = graph.DrawLine((x,-graph_Vertical_Max_Now_Int), (x, graph_Vertical_Max_Now_Int), color='white', width=1)
     else:
-        graph.move_figure(verticalZeroLine_FigureObject,step_size,0)
+        # !!! Important: Relative Positioning
+        # !!!' relocate_figure': relative offset position
+        # !!! jwc yyy for non-web (coordinates normal): graph.move_figure(verticalNowLine_FigureObject,step_size,0)
+        # !!! jwc yyy for web (coordinates reversed):
+        ###jwc y? bug workaround, go down also?: graph.move_figure(verticalNowLine_FigureObject,-step_size,0)
+        ###jwc n graph.move_figure(verticalNowLine_FigureObject,-step_size,-step_size)
+        ###jwc Web: 'graph.relocate_figure(verticalNowLine_FigureObject,20,20)' 'AttributeError: 'SvgLine' object has no attribute 'set_position'',
+        ###jwc web: 'graph.move_figure(verticalNowLine_FigureObject,-step_size,step_size)' not reliable either.  Just redraw line.
+        ###jwc n graph.move_figure(verticalNowLine_FigureObject,-step_size,step_size)
+        ###jwc n need background_color: graph.update()
 
+        ###jwc n graph.move_figure(verticalNowPoint_FigureObject, -step_size, 0)  
 
-    # Horizontal 'Zero' Line
-    ###jwc n graph.DrawLine((0,0), (graph_Horizontal_Max_Now_Int,0), color='white', width=1, key='-HorizontalNowLine-')   
-    graph.DrawLine((0,0), (graph_Horizontal_Max_Now_Int,0), color='white', width=1)   
-    
+        ###jwc y? good start: graph.draw_line((x-step_size,0), (x,0), color='grey', width=1)
+        ### #jwc y AAA graph.delete_figure(verticalNowLine_FigureObject) 
+        ### #jwc y AAA verticalNowLine_FigureObject = graph.DrawLine((x,-graph_Vertical_Max_Now_Int), (x, graph_Vertical_Max_Now_Int), color='white', width=1)
+
+        ###jwc AttributeError: 'SvgLine' object has no attribute 'set_position': graph.relocate_figure(verticalNowLine_FigureObject, x, 0)
+
+        graph.delete_figure(verticalNowLine_FigureObject) 
+        verticalNowLine_FigureObject = graph.DrawLine((x,-graph_Vertical_Max_Now_Int), (x, graph_Vertical_Max_Now_Int), color='white', width=1)
+    ###jwc yy # Horizontal 'Zero' Line
+    ###jwc yy ###jwc n graph.DrawLine((0,0), (graph_Horizontal_Max_Now_Int,0), color='white', width=1, key='-HorizontalNowLine-')   
+    ###jwc yy graph.DrawLine((0,0), (graph_Horizontal_Max_Now_Int,0), color='white', width=1)   
+
     
     for rowData_ForOneBot in rowData_ArrayList_OfDictionaryPairs_ForAllBots:
         
@@ -521,7 +586,12 @@ while True:                             # Event Loop
             ###jwc y4? history_OfDrawLines_Queues_ManyBots_2D[rowData_ForOneBot['bot_id']]['DrawLine_Figure_Object_Queue'].put(history_OfDrawTexts_PerBot_AsFigureObject)
             ###jwc 23-0527-1320 y5? history_OfDrawLines_Queues_ManyBots_2D[rowData_ForOneBot['bot_id']].put(history_OfDrawTexts_PerBot_AsFigureObject)
                                 
-            history_OfDrawTexts_PerBot_AsFigureObject = window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x-5, rowData_ForOneBot_Y_Now+5), font=('Arial', 4))
+            ###jwc y history_OfDrawTexts_PerBot_AsFigureObject = window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x-5, rowData_ForOneBot_Y_Now+5), font=('Arial', 4))
+            ###jwc y history_OfDrawTexts_PerBot_AsFigureObject = window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x-5, rowData_ForOneBot_Y_Now+5), font=('Arial', 3))
+            ###jwc y history_OfDrawTexts_PerBot_AsFigureObject = window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x-5, rowData_ForOneBot_Y_Now+5), font=('Arial',2), color='grey')
+            ###jwc y history_OfDrawTexts_PerBot_AsFigureObject = window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x-5, rowData_ForOneBot_Y_Now+5), font=('Arial',2), color='red')
+            ###jwc ym Web is limited: no font nor color: history_OfDrawTexts_PerBot_AsFigureObject = window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x-5, rowData_ForOneBot_Y_Now+5), font='Arial 3', color='red')
+            history_OfDrawTexts_PerBot_AsFigureObject = window['-GRAPH-'].DrawText(text=rowData_ForOneBot_BotLabel, location=(x-5, rowData_ForOneBot_Y_Now+5))
             history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue = history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key']
             history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue.put(history_OfDrawTexts_PerBot_AsFigureObject)
             ###jwc seems not needed y: history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key'] = history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue
