@@ -363,6 +363,7 @@ history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList 
 
 ###jwc o layout = [  
 column_01_Layout = [  
+    [sg.Text('RQ100 Scoreboard Server & Diagnostic Dashboard', justification='center', size=(40,1))],
     ###jwc y [sg.Graph(GRAPH_SIZE, (0,0), GRAPH_SIZE, key='-GRAPH-', background_color='lightblue')],
     ###jwc y [sg.Graph(GRAPH_SIZE, (0,0), GRAPH_SIZE, key='-GRAPH-', background_color='lightblue'), sg.Slider((0,30), default_value=15, orientation='h', key='-DELAY2-')],
     
@@ -379,7 +380,7 @@ column_01_Layout = [
     ###jwc y [sg.Text('Battery Charge Levels', justification='center', size=(40,1))],
     ###jwc y [sg.Graph((200,400), (0,0), (200, 400), background_color='lightblue', key='-CHARGE-')],
 column_02_layout = [
-    [sg.Text('Bot Light & Magnetic Data', justification='center', size=(40,1))],
+    [sg.Text('Bot Sensor Details', justification='center', size=(40,1))],
     ###jwc y [sg.Graph((200,400), (0,0), (200, 400), background_color='lightblue', key='-bot_LightAndMagnet_Data-')],
     [sg.Graph((250,600), (0,0), (250, 600), background_color='lightblue', key='-bot_LightAndMagnet_Data-')],
     ]
@@ -398,7 +399,7 @@ layout = [
 ###jwc y window = sg.Window('Animated Line Graph Example', layout, finalize=True, web_port=5000)
 ###jwc y window = sg.Window('Animated Line Graph Example', layout, finalize=True, web_port=5000, web_update_interval=0.00001)
 # !!! 'web_update_interval=0.00001' appears worst update slows to 10s (vs 4s)
-window = sg.Window('Animated Line Graph Example', layout, finalize=True, web_port=5000)
+window = sg.Window('RQ100 Scoreboard Server & Diagnostic Dashboard', layout, finalize=True, web_port=5000)
 
 graph = window["-GRAPH-"]  # type: sg.Graph
 
@@ -664,7 +665,8 @@ while True:                             # Event Loop
             history_OfDrawTexts_PerBot_AsFigureObject_02 = window['-bot_LightAndMagnet_Data-'].draw_text(
                 ###jwc yn text=str(i) +':'+ str(rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values['light_lastdelta']), 
                 ###jwc y text=f"{i}: {rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values['bot_id']}: {rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values['light_lastdelta']}: {rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values['magnet_lastdelta']}", 
-                text=f"{i} #:{rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values['bot_id']} L:{rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values['light_lastdelta']} M:{rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values['magnet_lastdelta']}", 
+                ###jwc yy text=f"{i} #:{rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values['bot_id']} L:{rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values['light_lastdelta']} M:{rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values['magnet_lastdelta']}", 
+                text=f"{i} #:{rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values['bot_id']} -L:{rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values['light_lastdelta']} +M:{rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values['magnet_lastdelta']} =T:{-1*rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values['grand_total']}", 
                 ####jwc n will not print outside graph: location=(250, i*10)
                 ###jwc n location=(0, i*20+20)
                 ###jwc n location=(0, i*20+20)
