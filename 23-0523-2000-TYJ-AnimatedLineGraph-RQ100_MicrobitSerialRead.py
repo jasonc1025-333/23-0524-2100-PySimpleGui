@@ -73,7 +73,9 @@ ser = serial.Serial(
         ###jwc y port='/dev/ttyACM1',
 
         ##jwc o port='COM3',
-        port='/dev/ttyACM0',
+        ###jwc y port='/dev/ttyAMA0',
+        ###jwc port='/dev/ttyACM0',
+        port='/dev/ttyAMA0',
         baudrate = 115200,
         parity=serial.PARITY_NONE,
         stopbits=serial.STOPBITS_ONE,
@@ -83,9 +85,10 @@ ser = serial.Serial(
 
 # Debug Prints
 #
-###jwc y _debug_Show_Priority_Hi_Bool = True
-###jwc y _debug_Show_Priority_Hi_Bool = True
-_debug_Show_Priority_Hi_Bool = False
+###jwc y _debug_Show_Priority_Mi_Bool = True
+###jwc y _debug_Show_Priority_Mi_Bool = False
+_debug_Show_Priority_Hi_Bool = True
+_debug_Show_Priority_Mi_Bool = False
 _debug_Show_Priority_Lo_Bool = False
 
 #
@@ -156,7 +159,7 @@ def receive_Microbit_Messages_Fn() -> None:
         ###jwc o     print("* A: Raw String: ")
         ###jwc o     ###jwc o print("  A1>" + str(network_DataMessage_Rcvd_Str) +"|")
         ###jwc o     print("  1:" + str(network_DataMessage_Rcvd_Str) +"|")
-        if _debug_Show_Priority_Hi_Bool:
+        if _debug_Show_Priority_Mi_Bool:
             print("  A2:network_DataMessage_Rcvd_Str:" + str(network_DataMessage_Rcvd_Str) +"|")
 
         ###jwc y if True:
@@ -206,7 +209,7 @@ def receive_Microbit_Messages_Fn() -> None:
             print("* C1:" + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots))
 
         if scoreboard_DataMessage_Rcvd_Dict['#'] in rowData_ArrayList_OfDictionaryPairs_ForAllBots.keys():
-            if _debug_Show_Priority_Hi_Bool:
+            if _debug_Show_Priority_Mi_Bool:
                 print("  C2:" + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]))
                 
             scoreboard_Bot_Found_Bool = True    
@@ -233,11 +236,13 @@ def receive_Microbit_Messages_Fn() -> None:
                 graph_Vertical_Divider_Now_Int *= graph_Vertical_MULTIPLIER_INT
 
             if _debug_Show_Priority_Hi_Bool:
-                print("  C3:rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]: " + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]))
+                ###JWC Y print("  C3:rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]: " + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]))
+                ###JWC Y print("  C3:rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]: " + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]))
+                print("  C3:" + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]))
         else:
             # Create Emtpy Version to be Initialized
             rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']] = {}
-            if _debug_Show_Priority_Hi_Bool:
+            if _debug_Show_Priority_Mi_Bool:
                 print("* D1:" + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]))
             rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['row_id'] = chr( ord('A') + rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int)
             rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['bot_id'] = scoreboard_DataMessage_Rcvd_Dict['#']
@@ -266,7 +271,7 @@ def receive_Microbit_Messages_Fn() -> None:
             ####jwc n rowData_ArrayList_OfDictionaryPairs_ForAllBots.sort(key=lambda x_Now: x_Now.get('bot_id'))
             ###jwc n rowData_ArrayList_OfDictionaryPairs_ForAllBots.sort(key=lambda x_Now: x_Now.get('row_id'))
             ###jwc y rowData_ArrayList_OfDictionaryPairs_ForAllBots.sort(key=get_bot_id_fn)
-            ###jwc y if _debug_Show_Priority_Hi_Bool:
+            ###jwc y if _debug_Show_Priority_Mi_Bool:
             ###jwc y     print("  D1c:" + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots))
 
             rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int += 1
@@ -544,17 +549,30 @@ while True:                             # Event Loop
                 ###jwc 23-0527-1320 y5? graph.delete_figure(history_OfDrawLines_Queues_ManyBots_2D[rowData_ForOneBot['bot_id']]['Queue'].get())
 
                 history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue = history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList[rowData_ArrayList_OfDictionaryPairs_ForAllBots__Key_BotId_Int]['history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key']
-                graph.delete_figure(history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue.get(history_OfDrawLines_PerBot_AsFigureObject))
-
+                # 'try, except' not work
+                # Need following min_check, since a fatal silent error, will freeze program
+                # 'not history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue.empty()' could work but could be obsolete
+                if(history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue.qsize()>0):
+                    graph.delete_figure(history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue.get(history_OfDrawLines_PerBot_AsFigureObject))
+                    
                 history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue = history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList[rowData_ArrayList_OfDictionaryPairs_ForAllBots__Key_BotId_Int]['history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key']
-                graph.delete_figure(history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue.get(history_OfDrawTexts_PerBot_AsFigureObject))
+                # Need following min_check, since a fatal silent error, will freeze program
+                # 'not history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue.empty()' could work but could be obsolete
+                if(history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue.qsize()>0):
+                    graph.delete_figure(history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue.get(history_OfDrawTexts_PerBot_AsFigureObject))
                 ###jwc seems not needed y: history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList[rowData_ArrayList_OfDictionaryPairs_ForAllBots__Key_BotId_Int]['history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key'] = history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue
         
                 history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue = history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList[rowData_ArrayList_OfDictionaryPairs_ForAllBots__Key_BotId_Int]['history_OfDrawLines_LightLastDelta_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key']
-                graph.delete_figure(history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue.get(history_OfDrawLines_PerBot_AsFigureObject))
+                # Need following min_check, since a fatal silent error, will freeze program
+                # 'not history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue.empty()' could work but could be obsolete
+                if(history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue.qsize()>0):
+                    graph.delete_figure(history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue.get(history_OfDrawLines_PerBot_AsFigureObject))
 
                 history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue = history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList[rowData_ArrayList_OfDictionaryPairs_ForAllBots__Key_BotId_Int]['history_OfDrawLines_MagnetLastDelta_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key']
-                graph.delete_figure(history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue.get(history_OfDrawLines_PerBot_AsFigureObject))
+                # Need following min_check, since a fatal silent error, will freeze program
+                # 'not history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue.empty()' could work but could be obsolete
+                if(history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue.qsize()>0):
+                    graph.delete_figure(history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue.get(history_OfDrawLines_PerBot_AsFigureObject))
 
 
             ###jwc y window['-GRAPH-'].DrawLine((lastX1, rowData_ForOneBot['light_total_old']), 
@@ -649,7 +667,7 @@ while True:                             # Event Loop
         ###jwc n if rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values['bot_id'] != 0:
         if (rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values['bot_id'] != '') and (rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values['bot_id'] > 0):
           
-            if _debug_Show_Priority_Hi_Bool:
+            if _debug_Show_Priority_Mi_Bool:
                 print(
                     "* E",
                     i, 
@@ -828,7 +846,7 @@ window.close()
 ###jwc 23-0529-1330 yy        ###jwc o     print("* A: Raw String: ")
 ###jwc 23-0529-1330 yy        ###jwc o     ###jwc o print("  A1>" + str(network_DataMessage_Rcvd_Str) +"|")
 ###jwc 23-0529-1330 yy        ###jwc o     print("  1:" + str(network_DataMessage_Rcvd_Str) +"|")
-###jwc 23-0529-1330 yy        if _debug_Show_Priority_Hi_Bool:
+###jwc 23-0529-1330 yy        if _debug_Show_Priority_Mi_Bool:
 ###jwc 23-0529-1330 yy            print("  A2:network_DataMessage_Rcvd_Str:" + str(network_DataMessage_Rcvd_Str) +"|")
 ###jwc 23-0529-1330 yy
 ###jwc 23-0529-1330 yy        if True:
@@ -885,7 +903,7 @@ window.close()
 ###jwc 23-0529-1330 yy
 ###jwc 23-0529-1330 yy                scoreboard_Bot_Found_Bool = True    
 ###jwc 23-0529-1330 yy                
-###jwc 23-0529-1330 yy                if _debug_Show_Priority_Hi_Bool:
+###jwc 23-0529-1330 yy                if _debug_Show_Priority_Mi_Bool:
 ###jwc 23-0529-1330 yy                    print("  C3a:bot_dictionary: " + str(bot_dictionary))
 ###jwc 23-0529-1330 yy                bot_dictionary['light_lastdelta'] = scoreboard_DataMessage_Rcvd_Dict['L']
 ###jwc 23-0529-1330 yy                bot_dictionary['light_total'] += scoreboard_DataMessage_Rcvd_Dict['L']
@@ -908,11 +926,11 @@ window.close()
 ###jwc 23-0529-1330 yy                    graph_Vertical_Divider_Now_Int *= graph_Vertical_MULTIPLIER_INT
 ###jwc 23-0529-1330 yy
 ###jwc 23-0529-1330 yy
-###jwc 23-0529-1330 yy                if _debug_Show_Priority_Hi_Bool:
+###jwc 23-0529-1330 yy                if _debug_Show_Priority_Mi_Bool:
 ###jwc 23-0529-1330 yy                    print("  C3b:bot_dictionary: " + str(bot_dictionary))
 ###jwc 23-0529-1330 yy                
 ###jwc 23-0529-1330 yy        if not (scoreboard_Bot_Found_Bool):
-###jwc 23-0529-1330 yy            ##jwc o _debug_Show_Priority_Hi_Bool.append(scoreboard_DataNumNew_ArrayList)
+###jwc 23-0529-1330 yy            ##jwc o _debug_Show_Priority_Mi_Bool.append(scoreboard_DataNumNew_ArrayList)
 ###jwc 23-0529-1330 yy            ##jwc o if _debug_Show_Priority_Lo_Bool:
 ###jwc 23-0529-1330 yy            ##jwc o     print("* NewBotAdd:" + str(scoreboard_BotsAll_ArrayList_2D[len(scoreboard_BotsAll_ArrayList_2D) - 1]) + " " + str(len(scoreboard_BotsAll_ArrayList_2D)))
 ###jwc 23-0529-1330 yy
@@ -924,7 +942,7 @@ window.close()
 ###jwc 23-0529-1330 yy            ###jwc yy rowData_OfDictionaryPairs_ForABot_Empty_Local['magnet_lastdelta'] = scoreboard_DataMessage_Rcvd_Dict['M']
 ###jwc 23-0529-1330 yy            ###jwc yy rowData_OfDictionaryPairs_ForABot_Empty_Local['magnet_total'] += scoreboard_DataMessage_Rcvd_Dict['M']
 ###jwc 23-0529-1330 yy
-###jwc 23-0529-1330 yy            if _debug_Show_Priority_Hi_Bool:
+###jwc 23-0529-1330 yy            if _debug_Show_Priority_Mi_Bool:
 ###jwc 23-0529-1330 yy                ###jwc yy print("  D1aa:" + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots))
 ###jwc 23-0529-1330 yy                print("* D1:" + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots[rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int]))
 ###jwc 23-0529-1330 yy                ###jwc y print("  D1ab:" + str(rowData_OfDictionaryPairs_ForABot_Empty_Local))
@@ -950,12 +968,12 @@ window.close()
 ###jwc 23-0529-1330 yy                'history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key': Queue()
 ###jwc 23-0529-1330 yy                }
 ###jwc 23-0529-1330 yy            
-###jwc 23-0529-1330 yy            if _debug_Show_Priority_Hi_Bool:
+###jwc 23-0529-1330 yy            if _debug_Show_Priority_Mi_Bool:
 ###jwc 23-0529-1330 yy                print("  D2:" + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots[rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int]))
 ###jwc 23-0529-1330 yy            ####jwc n rowData_ArrayList_OfDictionaryPairs_ForAllBots.sort(key=lambda x_Now: x_Now.get('bot_id'))
 ###jwc 23-0529-1330 yy            ###jwc n rowData_ArrayList_OfDictionaryPairs_ForAllBots.sort(key=lambda x_Now: x_Now.get('row_id'))
 ###jwc 23-0529-1330 yy            ###jwc y rowData_ArrayList_OfDictionaryPairs_ForAllBots.sort(key=get_bot_id_fn)
-###jwc 23-0529-1330 yy            ###jwc y if _debug_Show_Priority_Hi_Bool:
+###jwc 23-0529-1330 yy            ###jwc y if _debug_Show_Priority_Mi_Bool:
 ###jwc 23-0529-1330 yy            ###jwc y     print("  D1c:" + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots))
 ###jwc 23-0529-1330 yy
 ###jwc 23-0529-1330 yy            rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int += 1
