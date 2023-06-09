@@ -75,7 +75,7 @@ ser = serial.Serial(
         ##jwc o port='COM3',
         ###jwc y port='/dev/ttyAMA0',
         ###jwc port='/dev/ttyACM0',
-        port='/dev/ttyAMA0',
+        port='/dev/ttyACM0',
         baudrate = 115200,
         parity=serial.PARITY_NONE,
         stopbits=serial.STOPBITS_ONE,
@@ -208,75 +208,82 @@ def receive_Microbit_Messages_Fn() -> None:
             ###jwc y print("* C")
             print("* C1:" + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots))
 
-        if scoreboard_DataMessage_Rcvd_Dict['#'] in rowData_ArrayList_OfDictionaryPairs_ForAllBots.keys():
-            if _debug_Show_Priority_Mi_Bool:
-                print("  C2:" + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]))
+        try:
+            if scoreboard_DataMessage_Rcvd_Dict['#'] in rowData_ArrayList_OfDictionaryPairs_ForAllBots.keys():
+                if _debug_Show_Priority_Mi_Bool:
+                    print("  C2:" + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]))
+                    
+                scoreboard_Bot_Found_Bool = True    
                 
-            scoreboard_Bot_Found_Bool = True    
-            
-            ###jwc y-obsolete: rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['row_id'] = chr( ord('A') + rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int)
-            ###jwc y-obsolete: rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['bot_id'] = scoreboard_DataMessage_Rcvd_Dict['#']
-            rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['light_lastdelta'] = scoreboard_DataMessage_Rcvd_Dict['L']
-            rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['light_total'] += scoreboard_DataMessage_Rcvd_Dict['L']
-            ###jwc n rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['light_total_old'] = 0
-            rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['magnet_lastdelta'] = scoreboard_DataMessage_Rcvd_Dict['M']
-            rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['magnet_total'] += scoreboard_DataMessage_Rcvd_Dict['M']
-            # Add 'Light Sensor' and Subtract 'Magnet Sensor'
-            rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['grand_total_old'] = rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['grand_total']
-            rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['grand_total'] += scoreboard_DataMessage_Rcvd_Dict['L'] - scoreboard_DataMessage_Rcvd_Dict['M']
+                ###jwc y-obsolete: rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['row_id'] = chr( ord('A') + rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int)
+                ###jwc y-obsolete: rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['bot_id'] = scoreboard_DataMessage_Rcvd_Dict['#']
+                rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['light_lastdelta'] = scoreboard_DataMessage_Rcvd_Dict['L']
+                rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['light_total'] += scoreboard_DataMessage_Rcvd_Dict['L']
+                ###jwc n rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['light_total_old'] = 0
+                rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['magnet_lastdelta'] = scoreboard_DataMessage_Rcvd_Dict['M']
+                rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['magnet_total'] += scoreboard_DataMessage_Rcvd_Dict['M']
+                # Add 'Light Sensor' and Subtract 'Magnet Sensor'
+                rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['grand_total_old'] = rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['grand_total']
+                rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['grand_total'] += scoreboard_DataMessage_Rcvd_Dict['L'] - scoreboard_DataMessage_Rcvd_Dict['M']
 
 
-            ###jwc y switch to 'grand_total': if  bot_dictionary['light_total'] > graph_Vertical_Max_Now_Int:
-            if  rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['grand_total'] >= graph_Vertical_Max_Now_Int:
-                graph_Vertical_Max_Now_Int *= graph_Vertical_MULTIPLIER_INT
-                graph_Vertical_Divider_Now_Int *= graph_Vertical_MULTIPLIER_INT
+                ###jwc y switch to 'grand_total': if  bot_dictionary['light_total'] > graph_Vertical_Max_Now_Int:
+                if  rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['grand_total'] >= graph_Vertical_Max_Now_Int:
+                    graph_Vertical_Max_Now_Int *= graph_Vertical_MULTIPLIER_INT
+                    graph_Vertical_Divider_Now_Int *= graph_Vertical_MULTIPLIER_INT
 
-            if  rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['grand_total'] <= -graph_Vertical_Max_Now_Int:
-                graph_Vertical_Max_Now_Int *= graph_Vertical_MULTIPLIER_INT
-                graph_Vertical_Divider_Now_Int *= graph_Vertical_MULTIPLIER_INT
+                if  rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['grand_total'] <= -graph_Vertical_Max_Now_Int:
+                    graph_Vertical_Max_Now_Int *= graph_Vertical_MULTIPLIER_INT
+                    graph_Vertical_Divider_Now_Int *= graph_Vertical_MULTIPLIER_INT
 
-            if _debug_Show_Priority_Hi_Bool:
-                ###JWC Y print("  C3:rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]: " + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]))
-                ###JWC Y print("  C3:rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]: " + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]))
-                print("  C3:" + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]))
-        else:
-            # Create Emtpy Version to be Initialized
-            rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']] = {}
-            if _debug_Show_Priority_Mi_Bool:
-                print("* D1:" + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]))
-            rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['row_id'] = chr( ord('A') + rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int)
-            rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['bot_id'] = scoreboard_DataMessage_Rcvd_Dict['#']
-            rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['light_lastdelta'] = scoreboard_DataMessage_Rcvd_Dict['L']
-            rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['light_total'] = scoreboard_DataMessage_Rcvd_Dict['L']
-            ###jwc n rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['light_total_old'] = 0
-            rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['magnet_lastdelta'] = scoreboard_DataMessage_Rcvd_Dict['M']
-            rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['magnet_total'] = scoreboard_DataMessage_Rcvd_Dict['M']
-            rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['grand_total_old'] = 0
-            # Add 'Light Sensor' and Subtract 'Magnet Sensor'
-            rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['grand_total'] = scoreboard_DataMessage_Rcvd_Dict['L'] - scoreboard_DataMessage_Rcvd_Dict['M']
- 
-            ###jwc n history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList[scoreboard_DataMessage_Rcvd_Dict['#']] = {'history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key': Queue()}
-            history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList[scoreboard_DataMessage_Rcvd_Dict['#']] = {
-                'history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key': Queue(), 
-                'history_OfDrawLines_LightLastDelta_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key':Queue(),
-                'history_OfDrawLines_MagnetLastDelta_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key':Queue()
-                }
-            history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList[scoreboard_DataMessage_Rcvd_Dict['#']] = {
-                'history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key': Queue()
-                }
-            
-            if _debug_Show_Priority_Hi_Bool:
-                ###jwc y print("  D2:" + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]))
-                print("  D2:" + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]))
-            ####jwc n rowData_ArrayList_OfDictionaryPairs_ForAllBots.sort(key=lambda x_Now: x_Now.get('bot_id'))
-            ###jwc n rowData_ArrayList_OfDictionaryPairs_ForAllBots.sort(key=lambda x_Now: x_Now.get('row_id'))
-            ###jwc y rowData_ArrayList_OfDictionaryPairs_ForAllBots.sort(key=get_bot_id_fn)
-            ###jwc y if _debug_Show_Priority_Mi_Bool:
-            ###jwc y     print("  D1c:" + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots))
+                if _debug_Show_Priority_Hi_Bool:
+                    ###JWC Y print("  C3:rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]: " + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]))
+                    ###JWC Y print("  C3:rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]: " + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]))
+                    print("  C3:" + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]))
+            else:
+                # Create Emtpy Version to be Initialized
+                rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']] = {}
+                if _debug_Show_Priority_Mi_Bool:
+                    print("* D1:" + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]))
+                rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['row_id'] = chr( ord('A') + rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int)
+                rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['bot_id'] = scoreboard_DataMessage_Rcvd_Dict['#']
+                rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['light_lastdelta'] = scoreboard_DataMessage_Rcvd_Dict['L']
+                rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['light_total'] = scoreboard_DataMessage_Rcvd_Dict['L']
+                ###jwc n rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['light_total_old'] = 0
+                rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['magnet_lastdelta'] = scoreboard_DataMessage_Rcvd_Dict['M']
+                rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['magnet_total'] = scoreboard_DataMessage_Rcvd_Dict['M']
+                rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['grand_total_old'] = 0
+                # Add 'Light Sensor' and Subtract 'Magnet Sensor'
+                rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['grand_total'] = scoreboard_DataMessage_Rcvd_Dict['L'] - scoreboard_DataMessage_Rcvd_Dict['M']
 
-            rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int += 1
+                rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]['wrap_around_bool'] = False
+    
+                ###jwc n history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList[scoreboard_DataMessage_Rcvd_Dict['#']] = {'history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key': Queue()}
+                history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList[scoreboard_DataMessage_Rcvd_Dict['#']] = {
+                    'history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key': Queue(), 
+                    'history_OfDrawLines_LightLastDelta_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key':Queue(),
+                    'history_OfDrawLines_MagnetLastDelta_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key':Queue()
+                    }
+                history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList[scoreboard_DataMessage_Rcvd_Dict['#']] = {
+                    'history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key': Queue()
+                    }
+                
+                if _debug_Show_Priority_Hi_Bool:
+                    ###jwc y print("  D2:" + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]))
+                    print("  D2:" + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots[scoreboard_DataMessage_Rcvd_Dict['#']]))
+                ####jwc n rowData_ArrayList_OfDictionaryPairs_ForAllBots.sort(key=lambda x_Now: x_Now.get('bot_id'))
+                ###jwc n rowData_ArrayList_OfDictionaryPairs_ForAllBots.sort(key=lambda x_Now: x_Now.get('row_id'))
+                ###jwc y rowData_ArrayList_OfDictionaryPairs_ForAllBots.sort(key=get_bot_id_fn)
+                ###jwc y if _debug_Show_Priority_Mi_Bool:
+                ###jwc y     print("  D1c:" + str(rowData_ArrayList_OfDictionaryPairs_ForAllBots))
+
+                rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int += 1
+        except:
+            print("!!! ERROR 23-0608-1440: scoreboard_DataMessage_Rcvd_Dict['#']" + scoreboard_DataMessage_Rcvd_Dict['#'])
+
     else:
-        print("*** No Serial Read *** ")
+        ###jwc y print("*** No Serial Read *** ")
+        print("*** NO SERIAL READ *** ")
 
 #
 # pySimpleGui
@@ -428,7 +435,7 @@ horizontalZeroLine_FigureObject = graph.DrawLine((0,0), (graph_Horizontal_Max_No
 
 verticalNowLine_FigureObject = graph.DrawLine((x_Now,-graph_Vertical_Max_Now_Int), (x_Now, graph_Vertical_Max_Now_Int), color='white', width=1)
 
-wrapAround_Bool = False
+wrapAround_ForThisMainWhileLoop_Bool = False
 
 # Vertical 'Now' Line
 ###jwc n verticalNowLine_FigureObject = graph.DrawLine((x_Now,-graph_Vertical_Max_Now_Int), (x_Now, graph_Vertical_Max_Now_Int), color='white', width=1, key='-verticalZeroLine-')
@@ -457,6 +464,10 @@ while True:                             # Event Loop
     if event in (None, 'Exit'):
         break
     
+    #
+    # 1st Column Window: Bot Sensor Summary
+    #
+
     window['-graph_Vertical_Max_Now_Int-'].update(graph_Vertical_Max_Now_Int)
     window['-graph_Vertical_Divider_Now_Int-'].update(graph_Vertical_Divider_Now_Int)
 
@@ -475,6 +486,8 @@ while True:                             # Event Loop
     ###jwc n1 verticalNowLine_FigureObject = graph.DrawLine((x_Now,-graph_Vertical_Max_Now_Int), (x_Now, graph_Vertical_Max_Now_Int), color='white', width=1)
     ###jwc y? verticalNowLine_FigureObject = graph.DrawLine((x_Now,-graph_Vertical_Max_Now_Int), (x_Now, graph_Vertical_Max_Now_Int), color='white', width=1)
     
+    wrapAround_ForThisMainWhileLoop_Bool = False
+    
     ###jwc y if x_Now > (GRAPH_SIZE[0]-20):
     ###jwc if x_Now > (GRAPH_SIZE[0]-border_Perimeter_MARGIN_INT):
     # !!! '>=' for earliest detection, since so near boundary
@@ -483,7 +496,6 @@ while True:                             # Event Loop
         ###jwc y x_Now, x_Old = 0+20, 0+20
         x_Now = x_Old = 0 + border_Perimeter_MARGIN_INT
         ###jwc y window['-GRAPH-'].erase()
-        wrapAround_Bool = True
         ###jwc y graph.relocate_figure(verticalNowLine_FigureObject,20,0)
         ### jwc y graph.relocate_figure(verticalNowLine_FigureObject,-graph_Horizontal_Max_Now_Int+border_Perimeter_MARGIN_INT,0)
         # !!! 'relocate_figure': relative offset position
@@ -503,9 +515,10 @@ while True:                             # Event Loop
 
         ###jwc AttributeError: 'SvgLine' object has no attribute 'set_position': graph.relocate_figure(verticalNowLine_FigureObject, x_Now, 0)
         
-        graph.delete_figure(verticalNowLine_FigureObject) 
-        verticalNowLine_FigureObject = graph.DrawLine((x_Now,-graph_Vertical_Max_Now_Int), (x_Now, graph_Vertical_Max_Now_Int), color='white', width=1)
-    else:
+        ###jwc yy graph.delete_figure(verticalNowLine_FigureObject) 
+        ###jwc yy verticalNowLine_FigureObject = graph.DrawLine((x_Now,-graph_Vertical_Max_Now_Int), (x_Now, graph_Vertical_Max_Now_Int), color='white', width=1)
+        wrapAround_ForThisMainWhileLoop_Bool = True
+    ###jwc yy else:
         # !!! Important: Relative Positioning
         # !!!' relocate_figure': relative offset position
         # !!! jwc yyy for non-web (coordinates normal): graph.move_figure(verticalNowLine_FigureObject,graph_Horizontal_StepSize_Int,0)
@@ -525,8 +538,12 @@ while True:                             # Event Loop
 
         ###jwc AttributeError: 'SvgLine' object has no attribute 'set_position': graph.relocate_figure(verticalNowLine_FigureObject, x_Now, 0)
 
-        graph.delete_figure(verticalNowLine_FigureObject) 
-        verticalNowLine_FigureObject = graph.DrawLine((x_Now,-graph_Vertical_Max_Now_Int), (x_Now, graph_Vertical_Max_Now_Int), color='white', width=1)
+        ###jwc yy graph.delete_figure(verticalNowLine_FigureObject) 
+        ###jwc yy verticalNowLine_FigureObject = graph.DrawLine((x_Now,-graph_Vertical_Max_Now_Int), (x_Now, graph_Vertical_Max_Now_Int), color='white', width=1)
+
+    graph.delete_figure(verticalNowLine_FigureObject) 
+    verticalNowLine_FigureObject = graph.DrawLine((x_Now,-graph_Vertical_Max_Now_Int), (x_Now, graph_Vertical_Max_Now_Int), color='white', width=1)
+
     ###jwc yy # Horizontal 'Zero' Line
     ###jwc yy ###jwc n graph.DrawLine((0,0), (graph_Horizontal_Max_Now_Int,0), color='white', width=1, key='-HorizontalNowLine-')   
     ###jwc yy graph.DrawLine((0,0), (graph_Horizontal_Max_Now_Int,0), color='white', width=1)   
@@ -543,9 +560,13 @@ while True:                             # Event Loop
             ###jwc y rowData_ForOneBot_BotLabel = str(rowData_ForOneBot['bot_id'])
             rowData_ForOneBot_BotLabel = str(rowData_ArrayList_OfDictionaryPairs_ForAllBots__Key_BotId_Int)
 
-            # Clear Oldest Existing DrawLines/DrawTexts if 'wrapAround_Bool=True', so need to remove residue grpahics to re-use graph
+            # Clear Oldest Existing DrawLines/DrawTexts if 'wrapAround_ForThisMainWhileLoop_Bool=True', so need to remove residue grpahics to re-use graph
             #
-            if wrapAround_Bool:
+            if wrapAround_ForThisMainWhileLoop_Bool:
+                rowData_ArrayList_OfDictionaryPairs_ForAllBots[rowData_ArrayList_OfDictionaryPairs_ForAllBots__Key_BotId_Int]['wrap_around_bool'] = True
+
+            if rowData_ArrayList_OfDictionaryPairs_ForAllBots[rowData_ArrayList_OfDictionaryPairs_ForAllBots__Key_BotId_Int]['wrap_around_bool']:
+                
                 ###jwc 23-0527-1320 y5? graph.delete_figure(history_OfDrawLines_Queues_ManyBots_2D[rowData_ForOneBot['bot_id']]['Queue'].get())
 
                 history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue = history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList[rowData_ArrayList_OfDictionaryPairs_ForAllBots__Key_BotId_Int]['history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key']
@@ -573,7 +594,6 @@ while True:                             # Event Loop
                 # 'not history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue.empty()' could work but could be obsolete
                 if(history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue.qsize()>0):
                     graph.delete_figure(history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue.get(history_OfDrawLines_PerBot_AsFigureObject))
-
 
             ###jwc y window['-GRAPH-'].DrawLine((lastX1, rowData_ForOneBot['light_total_old']), 
             ###jwc y rowData_ForOneBot_Y_Now = int( rowData_ForOneBot['light_total'] / graph_Vertical_Divider_Now_Int )
@@ -656,6 +676,10 @@ while True:                             # Event Loop
     ###jwc ? 'str' x_Now += graph_Horizontal_StepSize_Int
     ###jwc y x_Now += int(graph_Horizontal_StepSize_Int)
     x_Now += graph_Horizontal_StepSize_Int
+
+    #
+    # 2nd Column Window: Bot Sensor Details
+    #
 
     # Erase at beginning for less flicker
     window['-bot_LightAndMagnet_Data-'].erase()
@@ -993,7 +1017,7 @@ window.close()
 ###jwc 23-0529-1500 yy
 ###jwc 23-0529-1500 yy            # Clear Oldest Existing DrawLines/DrawTexts
 ###jwc 23-0529-1500 yy            #
-###jwc 23-0529-1500 yy            if wrapAround_Bool:
+###jwc 23-0529-1500 yy            if wrapAround_ForThisMainWhileLoop_Bool:
 ###jwc 23-0529-1500 yy                ###jwc 23-0527-1320 y5? graph.delete_figure(history_OfDrawLines_Queues_ManyBots_2D[rowData_ForOneBot['bot_id']]['Queue'].get())
 ###jwc 23-0529-1500 yy
 ###jwc 23-0529-1500 yy                history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue = history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList[rowData_ForOneBot['bot_id']]['history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key']
