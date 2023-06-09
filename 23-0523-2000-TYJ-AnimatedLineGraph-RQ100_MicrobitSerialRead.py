@@ -63,7 +63,7 @@ rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int = 0
 ###jwc yy ]
 
 rowData_ArrayList_OfDictionaryPairs_ForAllBots = {0:{
-    'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':'', 'grand_total':'', 'grand_total_old':0,
+   'row_id':'', 'bot_id':'', 'mission_status':'', 'team_id':'', 'light_lastdelta':'', 'light_total':0, 'light_total_old':0, 'magnet_lastdelta':'', 'magnet_total':'', 'grand_total':'', 'grand_total_old':0,
     }}
 
 scoreboard_DataMessage_Rcvd_Dict = {}
@@ -262,10 +262,16 @@ def receive_Microbit_Messages_Fn() -> None:
                 history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList[scoreboard_DataMessage_Rcvd_Dict['#']] = {
                     'history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key': Queue(), 
                     'history_OfDrawLines_LightLastDelta_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key':Queue(),
-                    'history_OfDrawLines_MagnetLastDelta_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key':Queue()
+                    'history_OfDrawLines_MagnetLastDelta_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key':Queue(),
                     }
                 history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList[scoreboard_DataMessage_Rcvd_Dict['#']] = {
-                    'history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key': Queue()
+                    'history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key': Queue(),
+                    }
+
+                history_OfDraws_Col02_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList[scoreboard_DataMessage_Rcvd_Dict['#']] = {
+                    'history_OfDrawTexts_Col02_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key': Queue(),
+                    'history_OfDrawRectangles_LightLastDelta_Col02_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key':Queue(),
+                    'history_OfDrawRectangles_MagnetLastDelta_Col02_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key':Queue(),
                     }
                 
                 if _debug_Show_Priority_Hi_Bool:
@@ -369,13 +375,20 @@ history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue = Queue()
 ###jwc y history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList = {1:{'history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key':None}}
 ###jwc y history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList = {1:{'history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key':Queue()}}
 history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList = {0:{
-    'history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key':Queue(),
+   'history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key':Queue(),
     }}
 
+history_OfDraws_Col02_PerBot_AsFigureObject = None
+history_OfDraws_Col02_PerBot_AsFigureObject_AllFigureObjectsInQueue = Queue()
+history_OfDraws_Col02_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList = {0:{
+    'history_OfDrawTexts_Col02_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key': Queue(),
+    'history_OfDrawRectangles_LightLastDelta_Col02_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key':Queue(),
+    'history_OfDrawRectangles_MagnetLastDelta_Col02_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key':Queue(),
+    }}
 
 ###jwc o layout = [  
 column_01_Layout = [  
-    [sg.Text('RQ100 Scoreboard Server & Diagnostic Dashboard', justification='center', size=(40,1))],
+    [sg.Text('Bot Sensor: Summary', justification='center', size=(40,1))],
     ###jwc y [sg.Graph(GRAPH_SIZE, (0,0), GRAPH_SIZE, key='-GRAPH-', background_color='lightblue')],
     ###jwc y [sg.Graph(GRAPH_SIZE, (0,0), GRAPH_SIZE, key='-GRAPH-', background_color='lightblue'), sg.Slider((0,30), default_value=15, orientation='h', key='-DELAY2-')],
     
@@ -392,12 +405,13 @@ column_01_Layout = [
     ###jwc y [sg.Text('Battery Charge Levels', justification='center', size=(40,1))],
     ###jwc y [sg.Graph((200,400), (0,0), (200, 400), background_color='lightblue', key='-CHARGE-')],
 column_02_layout = [
-    [sg.Text('Bot Sensor Details', justification='center', size=(40,1))],
+    [sg.Text('Bot Sensor: Details', justification='center', size=(40,1))],
     ###jwc y [sg.Graph((200,400), (0,0), (200, 400), background_color='lightblue', key='-bot_LightAndMagnet_Data-')],
     [sg.Graph((250,600), (0,0), (250, 600), background_color='lightblue', key='-bot_LightAndMagnet_Data-')],
     ]
 
 layout = [
+    [sg.Text('RQ100 Scoreboard Server & Diagnostic Dashboard', justification='center', size=(80,1))],
     [sg.Column( column_01_Layout, element_justification='center'), sg.Column(column_02_layout, element_justification='center')],
     [sg.Button('Exit')]  ]
 
@@ -614,8 +628,7 @@ while True:                             # Event Loop
                                                                                     color='blue', 
                                                                                     width=1)
             # Archive Above New Grpahic for Removal Next Round: Part 1of2
-            history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue = history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList[rowData_ArrayList_OfDictionaryPairs_ForAllBots__Key_BotId_Int]\
-                                                                                                                                                               ['history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key']
+            history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue = history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList[rowData_ArrayList_OfDictionaryPairs_ForAllBots__Key_BotId_Int]['history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key']
             # Archive Above New Grpahic for Removal Next Round: Part 2of2
             history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue.put(history_OfDrawLines_PerBot_AsFigureObject)
             
@@ -629,8 +642,7 @@ while True:                             # Event Loop
                                                                                     color='red', 
                                                                                     width=1)
             # Archive Above New Grpahic for Removal Next Round: Part 1of2
-            history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue = history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList[rowData_ArrayList_OfDictionaryPairs_ForAllBots__Key_BotId_Int]\
-                                                                                                                                                               ['history_OfDrawLines_LightLastDelta_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key']
+            history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue = history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList[rowData_ArrayList_OfDictionaryPairs_ForAllBots__Key_BotId_Int]['history_OfDrawLines_LightLastDelta_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key']
             # Archive Above New Grpahic for Removal Next Round: Part 2of2
             history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue.put(history_OfDrawLines_PerBot_AsFigureObject)
 
@@ -644,8 +656,7 @@ while True:                             # Event Loop
                                                                                     color='green', 
                                                                                     width=1)
             # Archive Above New Grpahic for Removal Next Round: Part 1of2
-            history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue = history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList[rowData_ArrayList_OfDictionaryPairs_ForAllBots__Key_BotId_Int]\
-                                                                                                                                                               ['history_OfDrawLines_MagnetLastDelta_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key']
+            history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue = history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList[rowData_ArrayList_OfDictionaryPairs_ForAllBots__Key_BotId_Int]['history_OfDrawLines_MagnetLastDelta_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key']
             # Archive Above New Grpahic for Removal Next Round: Part 2of2
             history_OfDrawLines_PerBot_AsFigureObject_AllFigureObjectsInQueue.put(history_OfDrawLines_PerBot_AsFigureObject)
 
@@ -663,8 +674,7 @@ while True:                             # Event Loop
                                                                                     text=rowData_ForOneBot_BotLabel, 
                                                                                     location=(x_Now-5, rowData_ForOneBot_Y_Now+5))
             # Archive Above New Grpahic for Removal Next Round: Part 1of2
-            history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue = history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList[rowData_ArrayList_OfDictionaryPairs_ForAllBots__Key_BotId_Int]\
-                                                                                                                                                               ['history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key']
+            history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue = history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList[rowData_ArrayList_OfDictionaryPairs_ForAllBots__Key_BotId_Int]['history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key']
             # Archive Above New Grpahic for Removal Next Round: Part 2of2
             history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue.put(history_OfDrawTexts_PerBot_AsFigureObject)
                             
@@ -682,7 +692,7 @@ while True:                             # Event Loop
     #
 
     # Erase at beginning for less flicker
-    window['-bot_LightAndMagnet_Data-'].erase()
+    ###jwc ym but causes flicer: window['-bot_LightAndMagnet_Data-'].erase()
 
     ###jwc ? for rowData_ArrayList_OfDictionaryPairs_ForAllBots__ValuesOfDictionPairs_ForOneBot in rowData_ArrayList_OfDictionaryPairs_ForAllBots.values():
     for i, rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values in enumerate(rowData_ArrayList_OfDictionaryPairs_ForAllBots.values()):
@@ -703,8 +713,16 @@ while True:                             # Event Loop
                 ###jwc yyn location=(0, i*4)
                 ###jwc y location=(0, i*50)
                 ###jwc ? location=(-100, i*10)
-            ###jwc ? history_OfDrawTexts_PerBot_AsFigureObject_02 = window['-bot_LightAndMagnet_Data-'].DrawText(
-            history_OfDrawTexts_PerBot_AsFigureObject_02 = window['-bot_LightAndMagnet_Data-'].draw_text(
+                
+
+            # Archive Above New Grpahic for Removal Next Round: Part 1of2
+            history_OfDraws_Col02_PerBot_AsFigureObject_AllFigureObjectsInQueue = history_OfDraws_Col02_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList[rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values['bot_id']]['history_OfDrawTexts_Col02_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key']
+            # Need following min_check, since a fatal silent error, will freeze program
+            # 'not history_OfDraws_Col02_PerBot_AsFigureObject_AllFigureObjectsInQueue.empty()' could work but could be obsolete
+            if(history_OfDraws_Col02_PerBot_AsFigureObject_AllFigureObjectsInQueue.qsize()>0):
+                window['-bot_LightAndMagnet_Data-'].delete_figure(history_OfDraws_Col02_PerBot_AsFigureObject_AllFigureObjectsInQueue.get(history_OfDraws_Col02_PerBot_AsFigureObject))
+            ###jwc ? history_OfDraws_Col02_PerBot_AsFigureObject = window['-bot_LightAndMagnet_Data-'].DrawText(
+            history_OfDraws_Col02_PerBot_AsFigureObject = window['-bot_LightAndMagnet_Data-'].draw_text(
                 ###jwc yn text=str(i) +':'+ str(rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values['light_lastdelta']), 
                 ###jwc y text=f"{i}: {rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values['bot_id']}: {rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values['light_lastdelta']}: {rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values['magnet_lastdelta']}", 
                 ###jwc yy text=f"{i} #:{rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values['bot_id']} L:{rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values['light_lastdelta']} M:{rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values['magnet_lastdelta']}", 
@@ -714,7 +732,17 @@ while True:                             # Event Loop
                 ###jwc n location=(0, i*20+20)
                 location=(0, i*graph_BotSensorDetail_PIxelHigh_Int+20)
                 )
-            history_OfDrawRectangles_Light_PerBot_AsFigureObject_02 = window['-bot_LightAndMagnet_Data-'].draw_rectangle(
+            # Archive Above New Grpahic for Removal Next Round: Part 2of2
+            history_OfDraws_Col02_PerBot_AsFigureObject_AllFigureObjectsInQueue.put(history_OfDraws_Col02_PerBot_AsFigureObject)
+
+
+            # Archive Above New Grpahic for Removal Next Round: Part 1of2
+            history_OfDraws_Col02_PerBot_AsFigureObject_AllFigureObjectsInQueue = history_OfDraws_Col02_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList[rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values['bot_id']]['history_OfDrawRectangles_LightLastDelta_Col02_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key']
+            # Need following min_check, since a fatal silent error, will freeze program
+            # 'not history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue.empty()' could work but could be obsolete
+            if(history_OfDraws_Col02_PerBot_AsFigureObject_AllFigureObjectsInQueue.qsize()>0):
+                window['-bot_LightAndMagnet_Data-'].delete_figure(history_OfDraws_Col02_PerBot_AsFigureObject_AllFigureObjectsInQueue.get(history_OfDraws_Col02_PerBot_AsFigureObject))
+            history_OfDraws_Col02_PerBot_AsFigureObject = window['-bot_LightAndMagnet_Data-'].draw_rectangle(
                 ###jwc y top_left=(0, i*20+10+5),
                 ###jwc y bottom_right=(rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values['light_lastdelta'], i*20+10),
                 top_left=(0, i*graph_BotSensorDetail_PIxelHigh_Int+10+5),
@@ -724,7 +752,16 @@ while True:                             # Event Loop
                 fill_color='red',
                 ###jwc n web: no argument: line_width=0,
                 )
-            history_OfDrawRectangles_Magnet_PerBot_AsFigureObject_02 = window['-bot_LightAndMagnet_Data-'].draw_rectangle(
+            # Archive Above New Grpahic for Removal Next Round: Part 2of2
+            history_OfDraws_Col02_PerBot_AsFigureObject_AllFigureObjectsInQueue.put(history_OfDraws_Col02_PerBot_AsFigureObject)
+
+            # Archive Above New Grpahic for Removal Next Round: Part 1of2
+            history_OfDraws_Col02_PerBot_AsFigureObject_AllFigureObjectsInQueue = history_OfDraws_Col02_PerBot_AsFigureObject_AllFigureObjectsInQueue_InDictionList[rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values['bot_id']]['history_OfDrawRectangles_MagnetLastDelta_Col02_PerBot_AsFigureObject_AllFigureObjectsInQueue_Key']
+            # Need following min_check, since a fatal silent error, will freeze program
+            # 'not history_OfDrawTexts_PerBot_AsFigureObject_AllFigureObjectsInQueue.empty()' could work but could be obsolete
+            if(history_OfDraws_Col02_PerBot_AsFigureObject_AllFigureObjectsInQueue.qsize()>0):
+                window['-bot_LightAndMagnet_Data-'].delete_figure(history_OfDraws_Col02_PerBot_AsFigureObject_AllFigureObjectsInQueue.get(history_OfDraws_Col02_PerBot_AsFigureObject))
+            history_OfDraws_Col02_PerBot_AsFigureObject = window['-bot_LightAndMagnet_Data-'].draw_rectangle(
                 ###jwc y top_left=(0, i*20+5),
                 ###jwc y bottom_right=(rowData_ArrayList_OfDictionaryPairs_ForAllBots__Values['magnet_lastdelta'], i*20),
                 top_left=(0, i*graph_BotSensorDetail_PIxelHigh_Int+5),
@@ -734,6 +771,8 @@ while True:                             # Event Loop
                 fill_color='green',
                 ###jwc n web: no argument: line_width=0,
                 )
+            # Archive Above New Grpahic for Removal Next Round: Part 2of2
+            history_OfDraws_Col02_PerBot_AsFigureObject_AllFigureObjectsInQueue.put(history_OfDraws_Col02_PerBot_AsFigureObject)
         
     ###jwc CLEAR window['-bot_LightAndMagnet_Data-'].
     ###jwc y? window['-bot_LightAndMagnet_Data-'].erase()
