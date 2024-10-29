@@ -3,12 +3,11 @@
 ###jwc o import PySimpleGUI as sg
 ###jwc yy works with local debugger:  import PySimpleGUI as sg
 ###jwc 24-1029 yyy import PySimpleGUIWeb as sg
-import PySimpleGUI as sg
+import PySimpleGUIWeb as sg
 
-###jwc for web: from random import randint
+from random import randint
 
 import serial
-
 
 rowData_ArrayList_OfDictionaryPairs_ForAllBots_NextUnusedIndex_Int = 0
 
@@ -427,9 +426,7 @@ total_Layout = [
 ###jwc y total_Window = sg.Window('Animated Line Graph Example', total_Layout, finalize=True, web_port=5000)
 ###jwc y total_Window = sg.Window('Animated Line Graph Example', total_Layout, finalize=True, web_port=5000, web_update_interval=0.00001)
 # !!! 'web_update_interval=0.00001' appears worst update slows to 10s (vs 4s)
-
-###jwc 24-1029 yyy total_Window = sg.Window('RQ100 Scoreboard Server & Diagnostic Dashboard', total_Layout, finalize=True, web_port=5000)
-total_Window = sg.Window('Animated Line Graph Example', total_Layout, finalize=True)
+total_Window = sg.Window('RQ100 Scoreboard Server & Diagnostic Dashboard', total_Layout, finalize=True, web_port=5000)
 
 sub_Window__keyIs_BotSensor_Summary__Graph_ = total_Window["_keyIs_BotSensor_Summary__Graph_"]  # type: sg.Graph
 
